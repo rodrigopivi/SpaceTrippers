@@ -1,0 +1,42 @@
+	Babylon.js Exporter version: 1.8.0, Blender version: 2.74 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Python World class constructor completed
+	WARNING: No active camera has been assigned, or is not in a currently selected Blender layer
+	processing begun of material:  navecita.default
+	Diffuse texture found
+	processing begun of material:  navecita.material_1
+	processing begun of material:  navecita.material_1_blue_joystick
+	processing begun of material:  navecita.material_1_cockpit
+	Diffuse texture found
+	processing begun of material:  navecita.material_1_couplers
+	processing begun of material:  navecita.material_1_cushion
+	Diffuse texture found
+	processing begun of material:  navecita.material_1_displays
+	Diffuse texture found
+	processing begun of material:  navecita.material_1_door
+	Diffuse texture found
+	processing begun of material:  navecita.material_1_green
+	processing begun of material:  navecita.material_1_lights
+	processing begun of material:  navecita.material_1_propulsion
+	processing begun of material:  navecita.material_1_red
+	processing begun of material:  navecita.material_1_red_joystick
+	processing begun of material:  navecita.material_1_windshield_glass
+	processing begun of material:  navecita.material_1_windshield_liner
+	processing begun of material:  navecita.material_2
+	Diffuse texture found
+	processing begun of material:  navecita.material_2_door
+	Diffuse texture found
+	processing begun of material:  navecita.material_3
+	Diffuse texture found
+	processing begun of material:  navecita.material_4
+	Diffuse texture found
+	processing begun of mesh:  mesh01
+		num positions      :  54452
+		num normals        :  54452
+		num uvs            :  108904
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  251040
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========

@@ -1,0 +1,21 @@
+﻿html, body {
+	margin: 0;
+	height: 100%;
+	width: 100%;
+}
+#renderCanvas {
+    height: 100%;
+    width: 100%;
+}
+#stats {
+    position:absolute;
+    top: 0;
+    left: 0;
+    color:aqua;
+    padding: 5px;
+    background:hsla(0, 0%, 0%, 0.70);
+    width: 200px;
+    height: 150px;
+    overflow: hidden;
+    font-size: 10px;
+}
