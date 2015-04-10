@@ -2,7 +2,7 @@
 
 Simple test 3d webgl game written using Typescript and BabylonJS.
 
-Just run "node server.js"
+Just go to the BabyTest1 folder and run "node server.js", => http://localhost:5000/
 
 TODO:
 
