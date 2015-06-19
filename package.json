@@ -1,0 +1,15 @@
+{
+  "name": "SpaceTrippers",
+  "version": "0.0.2",
+  "description": "3d WebGL game",
+  "license": "",
+  "homepage": "index.html",
+  "authors": [
+    "Rodrigo Pimentel"
+  ],
+  "private": true,
+  "dependencies": {
+    "connect": "~3.4.0",
+    "serve-static": "~1.10.0"
+  }
+}
