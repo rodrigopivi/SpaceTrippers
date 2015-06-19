@@ -2,6 +2,8 @@
 
 3d webgl game written using Typescript and BabylonJS.
 
-You will need nodeJS installed.
+DEMO: http://space-trippers.herokuapp.com/
 
-Go to the BabyTest1 folder and run "node server.js", => http://localhost:5000/
+To run locally:
+You will need nodeJS installed.
+Run npm install and then 'node server.js' => http://localhost:5000/
