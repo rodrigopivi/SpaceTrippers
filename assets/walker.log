@@ -1,0 +1,278 @@
+	Babylon.js Exporter version: 1.8.0, Blender version: 2.74 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Python World class constructor completed
+	processing begun of material:  walker.pixelzombie
+	processing begun of skeleton:  Armature, id:  0
+	processing begun of bone:  Bip01, index:  0
+	animation begun of bone:  Bip01
+	processing begun of bone:  Bip01_Pelvis, index:  1
+	animation begun of bone:  Bip01_Pelvis
+	processing begun of bone:  Bip01_Spine, index:  2
+	animation begun of bone:  Bip01_Spine
+	processing begun of bone:  Bip01_Spine1, index:  3
+	animation begun of bone:  Bip01_Spine1
+	processing begun of bone:  Bip01_Spine2, index:  4
+	animation begun of bone:  Bip01_Spine2
+	processing begun of bone:  Bip01_Spine3, index:  5
+	animation begun of bone:  Bip01_Spine3
+	processing begun of bone:  Bip01_Neck, index:  6
+	animation begun of bone:  Bip01_Neck
+	processing begun of bone:  Bip01_Head, index:  7
+	animation begun of bone:  Bip01_Head
+	processing begun of bone:  Bip01_HeadNub, index:  8
+	animation begun of bone:  Bip01_HeadNub
+	processing begun of bone:  Bip01_L_Clavicle, index:  9
+	animation begun of bone:  Bip01_L_Clavicle
+	processing begun of bone:  Bip01_L_UpperArm, index:  10
+	animation begun of bone:  Bip01_L_UpperArm
+	processing begun of bone:  Bip01_L_Forearm, index:  11
+	animation begun of bone:  Bip01_L_Forearm
+	processing begun of bone:  Bip01_L_Hand, index:  12
+	animation begun of bone:  Bip01_L_Hand
+	processing begun of bone:  Bip01_L_Finger0, index:  13
+	animation begun of bone:  Bip01_L_Finger0
+	processing begun of bone:  Bip01_L_Finger01, index:  14
+	animation begun of bone:  Bip01_L_Finger01
+	processing begun of bone:  Bip01_L_Finger0Nub, index:  15
+	animation begun of bone:  Bip01_L_Finger0Nub
+	processing begun of bone:  Bip01_L_Finger1, index:  16
+	animation begun of bone:  Bip01_L_Finger1
+	processing begun of bone:  Bip01_L_Finger11, index:  17
+	animation begun of bone:  Bip01_L_Finger11
+	processing begun of bone:  Bip01_L_Finger1Nub, index:  18
+	animation begun of bone:  Bip01_L_Finger1Nub
+	processing begun of bone:  Bip01_L_Finger2, index:  19
+	animation begun of bone:  Bip01_L_Finger2
+	processing begun of bone:  Bip01_L_Finger21, index:  20
+	animation begun of bone:  Bip01_L_Finger21
+	processing begun of bone:  Bip01_L_Finger2Nub, index:  21
+	animation begun of bone:  Bip01_L_Finger2Nub
+	processing begun of bone:  Bip01_L_Finger3, index:  22
+	animation begun of bone:  Bip01_L_Finger3
+	processing begun of bone:  Bip01_L_Finger31, index:  23
+	animation begun of bone:  Bip01_L_Finger31
+	processing begun of bone:  Bip01_L_Finger3Nub, index:  24
+	animation begun of bone:  Bip01_L_Finger3Nub
+	processing begun of bone:  Bip01_L_Finger4, index:  25
+	animation begun of bone:  Bip01_L_Finger4
+	processing begun of bone:  Bip01_L_Finger41, index:  26
+	animation begun of bone:  Bip01_L_Finger41
+	processing begun of bone:  Bip01_L_Finger4Nub, index:  27
+	animation begun of bone:  Bip01_L_Finger4Nub
+	processing begun of bone:  Bip01_R_Clavicle, index:  28
+	animation begun of bone:  Bip01_R_Clavicle
+	processing begun of bone:  Bip01_R_UpperArm, index:  29
+	animation begun of bone:  Bip01_R_UpperArm
+	processing begun of bone:  Bip01_R_Forearm, index:  30
+	animation begun of bone:  Bip01_R_Forearm
+	processing begun of bone:  Bip01_R_Hand, index:  31
+	animation begun of bone:  Bip01_R_Hand
+	processing begun of bone:  Bip01_R_Finger0, index:  32
+	animation begun of bone:  Bip01_R_Finger0
+	processing begun of bone:  Bip01_R_Finger01, index:  33
+	animation begun of bone:  Bip01_R_Finger01
+	processing begun of bone:  Bip01_R_Finger0Nub, index:  34
+	animation begun of bone:  Bip01_R_Finger0Nub
+	processing begun of bone:  Bip01_R_Finger1, index:  35
+	animation begun of bone:  Bip01_R_Finger1
+	processing begun of bone:  Bip01_R_Finger11, index:  36
+	animation begun of bone:  Bip01_R_Finger11
+	processing begun of bone:  Bip01_R_Finger1Nub, index:  37
+	animation begun of bone:  Bip01_R_Finger1Nub
+	processing begun of bone:  Bip01_R_Finger2, index:  38
+	animation begun of bone:  Bip01_R_Finger2
+	processing begun of bone:  Bip01_R_Finger21, index:  39
+	animation begun of bone:  Bip01_R_Finger21
+	processing begun of bone:  Bip01_R_Finger2Nub, index:  40
+	animation begun of bone:  Bip01_R_Finger2Nub
+	processing begun of bone:  Bip01_R_Finger3, index:  41
+	animation begun of bone:  Bip01_R_Finger3
+	processing begun of bone:  Bip01_R_Finger31, index:  42
+	animation begun of bone:  Bip01_R_Finger31
+	processing begun of bone:  Bip01_R_Finger3Nub, index:  43
+	animation begun of bone:  Bip01_R_Finger3Nub
+	processing begun of bone:  Bip01_R_Finger4, index:  44
+	animation begun of bone:  Bip01_R_Finger4
+	processing begun of bone:  Bip01_R_Finger41, index:  45
+	animation begun of bone:  Bip01_R_Finger41
+	processing begun of bone:  Bip01_R_Finger4Nub, index:  46
+	animation begun of bone:  Bip01_R_Finger4Nub
+	processing begun of bone:  Bip01_L_Thigh, index:  47
+	animation begun of bone:  Bip01_L_Thigh
+	processing begun of bone:  Bip01_L_Calf, index:  48
+	animation begun of bone:  Bip01_L_Calf
+	processing begun of bone:  Bip01_L_Foot, index:  49
+	animation begun of bone:  Bip01_L_Foot
+	processing begun of bone:  Bip01_L_Toe0, index:  50
+	animation begun of bone:  Bip01_L_Toe0
+	processing begun of bone:  Bip01_L_Toe0Nub, index:  51
+	animation begun of bone:  Bip01_L_Toe0Nub
+	processing begun of bone:  Bip01_R_Thigh, index:  52
+	animation begun of bone:  Bip01_R_Thigh
+	processing begun of bone:  Bip01_R_Calf, index:  53
+	animation begun of bone:  Bip01_R_Calf
+	processing begun of bone:  Bip01_R_Foot, index:  54
+	animation begun of bone:  Bip01_R_Foot
+	processing begun of bone:  Bip01_R_Toe0, index:  55
+	animation begun of bone:  Bip01_R_Toe0
+	processing begun of bone:  Bip01_R_Toe0Nub, index:  56
+	animation begun of bone:  Bip01_R_Toe0Nub
+	processing complete of skeleton:  Armature
+	processing begun of mesh:  default
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		WARNING: Maximum # of influencers exceeded for a vertex, extras ignored
+		num positions      :  10722
+		num normals        :  10722
+		num uvs            :  21444
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  10722
+		num skeletonWeights:  42888
+		num skeletonIndices:  42888
+	processing begun of camera (FreeCamera):  Camera
+	processing begun of light (HEMI):  EnvironmentAmbientLight
+	processing begun of light (POINT):  Lamp
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========

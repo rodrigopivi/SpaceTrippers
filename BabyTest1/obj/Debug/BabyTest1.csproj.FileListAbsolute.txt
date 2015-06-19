@@ -1,6 +1,0 @@
-\\psf\Home\Desktop\BabylonJS\BabyTest1\BabyTest1\bin\BabyTest1.dll.config
-\\psf\Home\Desktop\BabylonJS\BabyTest1\BabyTest1\bin\BabyTest1.dll
-\\psf\Home\Desktop\BabylonJS\BabyTest1\BabyTest1\bin\BabyTest1.pdb
-\\psf\Home\Desktop\BabylonJS\BabyTest1\BabyTest1\obj\Debug\BabyTest1.csprojResolveAssemblyReference.cache
-\\psf\Home\Desktop\BabylonJS\BabyTest1\BabyTest1\obj\Debug\BabyTest1.dll
-\\psf\Home\Desktop\BabylonJS\BabyTest1\BabyTest1\obj\Debug\BabyTest1.pdb

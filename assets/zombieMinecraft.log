@@ -1,0 +1,29 @@
+	Babylon.js Exporter version: 1.8.0, Blender version: 2.74 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Python World class constructor completed
+	processing begun of material:  zombieMinecraft.Material
+	Diffuse texture found
+	processing begun of skeleton:  Armature, id:  0
+	processing begun of bone:  TORSO, index:  0
+	processing begun of bone:  HEAD.M, index:  1
+	processing begun of bone:  RIGHT ARM.R, index:  2
+	processing begun of bone:  LEFT ARM.L, index:  3
+	processing begun of bone:  RIGHT LEG.R, index:  4
+	processing begun of bone:  LEFT LEG.L, index:  5
+	processing begun of bone:  TORSO.001, index:  6
+	processing complete of skeleton:  Armature
+	processing begun of mesh:  Cube.005
+		num positions      :  216
+		num normals        :  216
+		num uvs            :  432
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  216
+		num skeletonWeights:  864
+		num skeletonIndices:  864
+	processing begun of camera (FreeCamera):  Camera
+	processing begun of light (POINT):  Lamp.001
+	processing begun of light (POINT):  Lamp
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
