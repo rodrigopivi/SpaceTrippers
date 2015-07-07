@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "postinstall": "gulp build"
+    "prestart": "gulp build"
   },
   "engines": {
     "node": "0.12.6"
