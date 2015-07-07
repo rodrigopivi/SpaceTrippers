@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "CommonJS",
+        "noImplicitAny": false,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "declaration": true,
+        "out": "./dist/app.js"
+    },
+    "filesGlob": [
+        "src/**/*.ts"
+    ],
+    "files": [
+        "src/spaceTrippers.ts"
+    ]
+}

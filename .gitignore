@@ -1,0 +1,9 @@
+node_modules
+dist
+[Tt]humbs.db
+*.DS_Store
+*.csproj
+*.user
+*.sln
+src/*.js
+src/*.map

@@ -1,0 +1,30 @@
+{
+  "name": "space-trippers",
+  "version": "0.0.1",
+  "description": "Awesome WebGL space-shooter survival game made on top of BabylonJS and TypeScript.",
+  "license": "MIT",
+  "repository": "https://github.com/rodrigopivi/SpaceTrippers",
+  "author": "Rodrigo Pimentel",
+  "keywords": [
+    "babylonjs, typescript, webgl, javascript, game"
+  ],
+  "files": [
+    "*"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-help": "^1.6.0",
+    "gulp-tslint": "^3.0.2-beta",
+    "tsd": "^0.6.3",
+    "tslint": "2.*",
+    "typescript": "^1.4.1",
+    "typescript-tools": "^0.3.1",
+    "connect": "~3.4.0",
+    "serve-static": "~1.10.0"
+  },
+  "engines": {
+    "node": ">=0.12.0"
+  }
+}
