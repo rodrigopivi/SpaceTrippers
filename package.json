@@ -12,8 +12,6 @@
     "*"
   ],
   "dependencies": {
-  },
-  "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-help": "^1.6.0",
     "gulp-tslint": "^3.0.2-beta",
@@ -23,6 +21,9 @@
     "typescript-tools": "^0.3.1",
     "connect": "~3.4.0",
     "serve-static": "~1.10.0"
+  },
+  "scripts": {
+    "build": "gulp build"
   },
   "engines": {
     "node": ">=0.12.0"

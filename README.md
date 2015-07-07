@@ -15,6 +15,11 @@ cd SpaceTrippers
 npm install
 gulp build
 ```
+Then you can run it.
+```
+node server.js
+```
+And open `http://localhost:5000` at your fav browser.
 
 ## Collaborate ##
 
