@@ -27,6 +27,6 @@
     "postinstall": "gulp build"
   },
   "engines": {
-    "node": ">=0.12.0"
+    "node": "0.12.6"
   }
 }
