@@ -1,7 +1,6 @@
-SpaceTrippers is an awesome 3D space shooter survival game.
-
-It's Made on top of technologies like webgl, Typescript and BabylonJS.
-(It's still a WIP).
+## SpaceTrippers ##
+An awesome 3D space shooter survival game made on top of technologies like webGL, Typescript and BabylonJS.
+(still a WIP).
 
 Demo: http://space-trippers.herokuapp.com
 
@@ -29,13 +28,15 @@ There are some To-do's if you like the game and want to contribute to the projec
 
 * Need to fix-upgrade the generation of rocks, it's buggy and need to have some gradual difficulty.
 
-* Need to have some gradual levels difficulty to be able to have the feeling of a survival game.
+* Need to have some incremental difficulty to be able to have the feeling of a survival game. (Using levels?).
 
-* Need an initial Menu with some instructions and a Start Button to start the game.
+* Need an score counter.
+
+* Need an initial menu with some instructions and a 'Start' button to start the game.
 
 * Need to receive life damage when a collition happens.
 
-* Need some message or handing when the life end's.
+* Need a game over message/screen when the life end's.
 
 ## License ##
 
