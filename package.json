@@ -23,7 +23,6 @@
     "serve-static": "~1.10.0"
   },
   "scripts": {
-    "start": "node server.js",
     "prestart": "gulp build"
   },
   "engines": {
