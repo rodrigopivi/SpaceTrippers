@@ -21,7 +21,6 @@ module Core.MainScene {
             this.bulletsOrigin = bulletsOrigin;
             var originalShotMesh = BABYLON.Mesh.CreateSphere("originalShot", 5, 11, this.scene.scene, true);
             originalShotMesh.renderingGroupId = 2;
-            //originalShotMesh.scaling = new BABYLON.Vector3(2, 2, 2);
             originalShotMesh.isVisible = false;
             var originalBulletTail = new BABYLON.ParticleSystem("originalBulletTail", 500, this.scene.scene);
             originalBulletTail.renderingGroupId = 2;
@@ -71,7 +70,7 @@ module Core.MainScene {
                 };
 
                 this.currentBullets.push(newBullet);
-            }
+            };
 
             this.removeBullet = (bullet: IBullet) => {
                 bullet.particles.stop();
@@ -84,11 +83,11 @@ module Core.MainScene {
 
             this.scene.scene.registerBeforeRender((): void => {
                 if (this.currentBullets.length) {
-                    this.currentBullets.forEach((bullet) => {
+                    this.currentBullets.forEach((bullet: IBullet) => {
                         if (bullet.mesh.position.z - this.bulletsOrigin.position.z > 700) {
                             this.removeBullet(bullet);
                         } else {
-                            bullet.mesh.position.z += 5;   
+                            bullet.mesh.position.z += 5;
                         }
 
                         var collidableRocks = this.scene.rockGenerator.getRocksAtLanes(bullet.collidableLanes);
@@ -108,4 +107,4 @@ module Core.MainScene {
 
         }
     }
-} 
+}

@@ -41,8 +41,8 @@ module Core.MainScene {
                 return mIndex;
             };
 
-            this.getRocksAtLanes = (lanes: number[]): IRock[]=> {
-                return this.currentRocks.filter((rock) => {
+            this.getRocksAtLanes = (lanes: number[]): IRock[] => {
+                return this.currentRocks.filter((rock: IRock) => {
                     return rock.mesh.isVisible && lanes.indexOf(rock.laneIndex) !== -1;
                 });
             };
@@ -50,7 +50,7 @@ module Core.MainScene {
             var rockMaterial = new BABYLON.StandardMaterial("rockTexture", this.scene.scene);
             rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/rockTexture.jpg", this.scene.scene);
             rockMaterial.backFaceCulling = false;
-            BABYLON.SceneLoader.ImportMesh("", "/assets/", "rock.babylon", this.scene.scene,(newMeshes) => {
+            BABYLON.SceneLoader.ImportMesh("", "/assets/", "rock.babylon", this.scene.scene, (newMeshes: BABYLON.Mesh[]) => {
                 this.originalRock = <BABYLON.Mesh>newMeshes[0];
                 this.originalRock.isVisible = false;
                 this.originalRock.material = rockMaterial;
@@ -61,7 +61,6 @@ module Core.MainScene {
             var explosionSystem = new BABYLON.ParticleSystem("rockExplosion", 1000, this.scene.scene);
             explosionSystem.renderingGroupId = 2;
             explosionSystem.particleTexture = new BABYLON.Texture("/assets/flare.png", this.scene.scene);
-            //explosionSystem.emitter = this.targetObject;
             explosionSystem.minEmitBox = new BABYLON.Vector3(0, 0, 0);
             explosionSystem.maxEmitBox = new BABYLON.Vector3(0, 0, 0);
             explosionSystem.color1 = new BABYLON.Color4(0.8, 0.5, 0, 1);
@@ -98,7 +97,7 @@ module Core.MainScene {
             this.removeRock = (rock: IRock): void => {
                 var shadowRenderListIndex: number = -1;
                 this.scene.sharedShadowGenerator.getShadowMap().renderList.some(
-                    (mesh, shadowIndex) => {
+                    (mesh: BABYLON.Mesh, shadowIndex: number) => {
                         var ret: boolean = false;
                         if (mesh.name === rock.id) {
                             shadowRenderListIndex = shadowIndex;
@@ -154,7 +153,7 @@ module Core.MainScene {
                     newRock.mesh.isVisible = true;
 
                     // this render loop runs only when the rock is viewable
-                    newRock.mesh.registerBeforeRender((newR) => {
+                    newRock.mesh.registerBeforeRender((newR: BABYLON.Mesh) => {
                         newR.rotation.y += newRock.rotation.y;
                         newR.rotation.x += newRock.rotation.x;
                         newR.rotation.z += newRock.rotation.z;
@@ -182,7 +181,7 @@ module Core.MainScene {
             };
             // rocks destroyer
             this.scene.scene.registerBeforeRender(() => {
-                this.currentRocks.forEach((aRock) => {
+                this.currentRocks.forEach((aRock: IRock) => {
                     if (this.scene.camera.position.z > aRock.mesh.position.z) {
                         this.removeRock(aRock);
                     }
@@ -190,4 +189,4 @@ module Core.MainScene {
             });
         }
     }
-} 
+}

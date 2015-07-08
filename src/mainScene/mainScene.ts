@@ -11,7 +11,7 @@ module Core.MainScene {
         private addEventListeners: () => void;
         private removeEventListeners: () => void;
         private crateFollowCam: () => void;
-        private light: any; //BABYLON.SpotLight;
+        private light: any; // BABYLON.SpotLight;
         private shadowGenerator: BABYLON.ShadowGenerator;
 
         public scene: BABYLON.Scene;
@@ -47,7 +47,7 @@ module Core.MainScene {
             this.light.intensity = 1.3;
             this.shadowGenerator = new BABYLON.ShadowGenerator(1024, <any>this.light);
             this.shadowGenerator.usePoissonSampling = true;
-            
+
             this.sharedLight = this.light;
             this.sharedShadowGenerator = this.shadowGenerator;
 
@@ -77,7 +77,7 @@ module Core.MainScene {
                     spaceShipMesh.receiveShadows = true;
                     spaceShipMesh.renderingGroupId = 2;
                     this.shadowGenerator.getShadowMap().renderList.push(spaceShipMesh);
-                    //this.track.addCollisionDetector(this.spaceShip.spaceShipMesh);
+                    // this.track.addCollisionDetector(this.spaceShip.spaceShipMesh);
                     this.crateFollowCam();
 
                     this.meteoriteGenerator = new MeteoriteGenerator(this, this.spaceShip.spaceShipMesh);
@@ -85,7 +85,7 @@ module Core.MainScene {
                 });
             /* =============== Event Listeners =============== */
             this.addEventListeners = () => {
-                onKeyDownHandler = (event) => {
+                onKeyDownHandler = (event: KeyboardEvent) => {
                     var newLane;
                     switch (event.keyCode) {
                         case 37: // arrow left
@@ -116,7 +116,7 @@ module Core.MainScene {
                             break;
                     }
                 };
-                onKeyUpHandler = (event) => {
+                onKeyUpHandler = (event: KeyboardEvent) => {
                     switch (event.keyCode) {
                         case 32: // space
                             this.spaceShip.triggerShot();
@@ -137,14 +137,12 @@ module Core.MainScene {
 
             this.assetsManager.onTaskError = (task: BABYLON.MeshAssetTask) => {
                 console.log("error while loading " + task.name);
-            }
+            };
             // Create the render loop once all the assets are loaded
             this.assetsManager.onFinish = () => {
                 this.addEventListeners();
-
-                //this.canvas.style.background = "url(/assets/earthbg.jpg)";
                 this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0.0000000000000001);
-                this.canvas.style.background = "url(" + backgroundImageTask['image']['src'] + ")";
+                this.canvas.style.background = "url(" + backgroundImageTask["image"]["src"] + ")";
                 this.canvas.style.backgroundPositionY = "-300px";
                 this.canvas.style.backgroundPositionX = "-1235px";
                 this.rockGenerator.recursiveRocksCreation();

@@ -26,7 +26,7 @@ module Core.MainScene {
 
             this.meteoriteMaterial = new BABYLON.StandardMaterial("meteoriteTexture", this.scene.scene);
             this.meteoriteMaterial.diffuseTexture = new BABYLON.Texture("/assets/meteoriteDiffuseTexture.jpg", this.scene.scene);
-            this.meteoriteMaterial.backFaceCulling = false;//Show all the faces of the element
+            this.meteoriteMaterial.backFaceCulling = false;
             this.meteoriteMaterial.bumpTexture = new BABYLON.Texture("/assets/meteoriteBumpTexture.png", this.scene.scene);
 
             this.originalMeteorite = BABYLON.Mesh.CreateSphere("originalMeteorite", 1, 6, this.scene.scene);
@@ -103,7 +103,6 @@ module Core.MainScene {
                 meteor.position.x = Core.Utilities.getRandomInRange(1, 2) === 1
                     ? Core.Utilities.getRandomInRange(this.scene.track.rows.lanesPositionX[0] - 500, this.scene.track.rows.lanesPositionX[0] - 100)
                     : Core.Utilities.getRandomInRange(this.scene.track.rows.lanesPositionX[this.scene.track.rows.lanesPositionX.length - 1] + 100, this.scene.track.rows.lanesPositionX[this.scene.track.rows.lanesPositionX.length - 1] + 500);
-                //meteor.position.x = Core.getRandomInRange(-600, 600);
                 meteor.position.y = this.targetObject.position.y + Core.Utilities.getRandomInRange(20, 50);
                 meteor.position.z = this.targetObject.position.z + 1000;
                 var direction = meteor.position.subtract(targetPosition);
@@ -152,11 +151,10 @@ module Core.MainScene {
                 }, Core.Utilities.getRandomInRange(300, 2000));
             };
             recursiveMeteoritesCreation();
-            //recursiveMeteoritesCreation();
 
             this.scene.scene.registerBeforeRender((): void => {
                 if (this.currentMeteorites.length) {
-                    this.currentMeteorites.forEach((meteor, index) => {
+                    this.currentMeteorites.forEach((meteor: IMeteorite, index: number) => {
                         if (meteor.mesh && meteor.mesh.position.z < this.targetObject.position.z - 100) {
                             this.scene.scene._toBeDisposed.push(meteor.mesh);
                             this.currentMeteorites.splice(index, 1);
@@ -174,4 +172,4 @@ module Core.MainScene {
             });
         }
     }
-} 
+}

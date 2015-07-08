@@ -40,11 +40,11 @@ module Core.MainScene {
             this.repositionFirstLineOfBlocks = () => {
                 var rowBlock = this.rows.blocks.shift();
                 rowBlock.position.z = this.rows.nextBlockPositionZ;
-                rowBlock.material['diffuseColor'] = this.currentBlocksColor;
+                rowBlock.material["diffuseColor"] = this.currentBlocksColor;
                 this.rows.blocks.push(rowBlock);
                 this.rows.nextBlockPositionZ += this.blockInterval;
             };
-            
+
             var createBlock = (blockId: string, positionZ: number, positionX: number): BABYLON.Mesh => {
                 var block = this.originalBlock.clone(blockId);
                 block.scaling.x = this.blocksWidth;
@@ -100,8 +100,7 @@ module Core.MainScene {
                     }
                     originalRowBlock = Core.Utilities.mergeMeshes("OriginalRowBlock", rowBlocks, this.scene);
                     originalRowBlock.isVisible = false;
-                    rowBlocks.forEach((rowBlock) => { this.scene._toBeDisposed.push(rowBlock); });
-                    //this.scene._toBeDisposed.push(rowBlocks);
+                    rowBlocks.forEach((rowBlock: BABYLON.Mesh) => { this.scene._toBeDisposed.push(rowBlock); });
                 }
                 var newBlockRowMesh = originalRowBlock.clone("Row" + i);
                 newBlockRowMesh.material = this.blocksMaterial;
@@ -115,4 +114,4 @@ module Core.MainScene {
 
         }
     }
-}  
+}

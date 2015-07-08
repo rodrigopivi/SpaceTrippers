@@ -1,6 +1,6 @@
 {
     "rules": {
-        "align": [ true, "statements" ],
+        "align": false,
         "ban": [
             true,
             [ "_", "extend" ],
@@ -44,7 +44,7 @@
         "no-trailing-comma": true,
         "no-trailing-whitespace": true,
         "no-unused-expression": true,
-        "no-unused-variable": false,
+        "no-unused-variable": true,
         "no-unreachable": true,
         "no-use-before-declare": true,
         "no-var-requires": true,
@@ -78,10 +78,7 @@
             "check-module",
             "check-function"
         ],
-        "variable-name": [
-            true,
-            "allow-leading-underscore"
-        ],
+        "variable-name": false,
         "whitespace": [
             true,
             "check-branch",

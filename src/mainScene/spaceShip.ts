@@ -38,9 +38,9 @@ module Core.MainScene {
                     easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
                     this.moveUpAnimation.setEasingFunction(easingFunction);
                     Core.Audio.playSoundFromAudioLib("move");
-                    this.scene.scene.beginDirectAnimation(this.spaceShipMesh, [this.moveUpAnimation], 0, 160, false, 1,(): void => {
+                    this.scene.scene.beginDirectAnimation(this.spaceShipMesh, [this.moveUpAnimation], 0, 160, false, 1, (): void => {
                         this.moveUpAnimation = undefined;
-                        animationEndCallback && animationEndCallback();
+                        if (animationEndCallback) { animationEndCallback(); }
                     });
                 }
             };
@@ -57,9 +57,9 @@ module Core.MainScene {
                     easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
                     this.moveDownAnimation.setEasingFunction(easingFunction);
                     Core.Audio.playSoundFromAudioLib("move");
-                    this.scene.scene.beginDirectAnimation(this.spaceShipMesh, [this.moveDownAnimation], 0, 160, false, 1,(): void => {
+                    this.scene.scene.beginDirectAnimation(this.spaceShipMesh, [this.moveDownAnimation], 0, 160, false, 1, (): void => {
                         this.moveDownAnimation = undefined;
-                        animationEndCallback && animationEndCallback();
+                        if (animationEndCallback) { animationEndCallback(); };
                     });
                 }
             };
@@ -79,7 +79,7 @@ module Core.MainScene {
                     this.scene.scene.beginDirectAnimation(this.spaceShipMesh, [this.moveXAnimation], 0, 15, false, 1, (): void => {
                         this.isXMoving = false;
                         this.moveXAnimation = undefined;
-                        animationEndCallback && animationEndCallback();
+                        if (animationEndCallback) { animationEndCallback(); }
                     });
                 }
             };
@@ -112,7 +112,7 @@ module Core.MainScene {
                     this.bulletTrigger.triggerShot();
                     Core.Audio.playSoundFromAudioLib("shoot");
                 }
-            }
+            };
 
             var texture = new BABYLON.Texture("/assets/flare.png", this.scene.scene);
             var hitExplosion = new BABYLON.ParticleSystem("hitExplosion", 900, this.scene.scene);
@@ -140,13 +140,12 @@ module Core.MainScene {
             hitExplosion.updateSpeed = 0.005;
             hitExplosion.targetStopDuration = 0.05;
             hitExplosion.disposeOnStop = true;
-            //hitExplosion.start();
             this.explode = (afterDispose?: () => void): void => {
                 var newExplosion = hitExplosion.clone("hitExplosionX", this.spaceShipMesh);
                 Core.Audio.playSoundFromAudioLib("hit");
                 newExplosion.start();
                 if (afterDispose) {
-                    newExplosion.onDispose = () => { afterDispose(); };   
+                    newExplosion.onDispose = () => { afterDispose(); };
                 }
             };
 
@@ -159,7 +158,7 @@ module Core.MainScene {
                 this.bulletTrigger = new BulletTrigger(this.scene, this.spaceShipMesh);
 
                 afterLoadedCallback(this.spaceShipMesh);
-            }
+            };
         }
     }
 }
