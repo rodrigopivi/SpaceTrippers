@@ -1,17 +1,23 @@
 {
+    "version": "1.4.1",
     "compilerOptions": {
-        "module": "CommonJS",
-        "noImplicitAny": false,
-        "removeComments": false,
-        "preserveConstEnums": true,
+        "module": "commonjs",
         "sourceMap": true,
-        "declaration": true,
+        "declaration": false,
         "out": "./dist/app.js"
     },
     "filesGlob": [
         "src/**/*.ts"
     ],
     "files": [
-        "src/spaceTrippers.ts"
+        "src/audio.ts",
+        "src/mainScene/bulletTrigger.ts",
+        "src/mainScene/mainScene.ts",
+        "src/mainScene/meteoriteGenerator.ts",
+        "src/mainScene/rockGenerator.ts",
+        "src/mainScene/spaceShip.ts",
+        "src/mainScene/track.ts",
+        "src/spaceTrippers.ts",
+        "src/utilities.ts"
     ]
 }

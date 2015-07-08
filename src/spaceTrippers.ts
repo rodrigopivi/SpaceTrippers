@@ -1,5 +1,4 @@
 ///<reference path="../typings/poly2tri.d.ts"/>
-///<reference path="../typings/waa.d.ts"/>
 ///<reference path="../typings/jsfx.d.ts"/>
 ///<reference path="../typings/babylon.2.1.d.ts"/>
 ///<reference path="utilities.ts"/>
@@ -28,8 +27,8 @@ module Core {
 
                 currentScene = new Core.MainScene.Scene(canvas, engine);
 
-                //currentScene.scene.debugLayer.show();
-                //window.addEventListener("resize", () => { engine.resize(); });
+                // currentScene.scene.debugLayer.show();
+                // window.addEventListener("resize", () => { engine.resize(); });
             }
         }, false);
 
