@@ -1,5 +1,6 @@
-﻿var connect = require('connect'),
-    serveStatic = require('serve-static');
+﻿
+var connect = require('connect'),
+  serveStatic = require('serve-static');
 
 var app = connect();
 

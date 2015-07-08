@@ -1,9 +1,8 @@
 {
-    "version": "1.4.1",
     "compilerOptions": {
         "module": "commonjs",
         "sourceMap": true,
-        "declaration": false,
+        "declaration": true,
         "out": "./dist/app.js"
     },
     "filesGlob": [

@@ -6,31 +6,31 @@
 ///<reference path="mainScene/mainScene.ts"/>
 
 module Core {
-    "use strict";
+  "use strict";
 
-    export module Audio {}
-    export module Utilities {}
-    export module MainScene {}
+  export module Audio { }
+  export module Utilities { }
+  export module MainScene { }
 
 
-    export module Game {
-        export var canvas: HTMLCanvasElement;
-        export var engine: BABYLON.Engine;
-        export var currentScene: Core.MainScene.Scene;
+  export module Game {
+    export var canvas: HTMLCanvasElement;
+    export var engine: BABYLON.Engine;
+    export var currentScene: Core.MainScene.Scene;
 
-        document.addEventListener("DOMContentLoaded", () => {
-            if (BABYLON.Engine.isSupported()) {
-                BABYLON.Engine.ShadersRepository = "/shaders/";
+    document.addEventListener("DOMContentLoaded", () => {
+      if (BABYLON.Engine.isSupported()) {
+        BABYLON.Engine.ShadersRepository = "/shaders/";
 
-                canvas = <HTMLCanvasElement>document.getElementById("renderCanvas");
-                engine = new BABYLON.Engine(canvas, true);
+        canvas = <HTMLCanvasElement>document.getElementById("renderCanvas");
+        engine = new BABYLON.Engine(canvas, true);
 
-                currentScene = new Core.MainScene.Scene(canvas, engine);
+        currentScene = new Core.MainScene.Scene(canvas, engine);
 
-                // currentScene.scene.debugLayer.show();
-                // window.addEventListener("resize", () => { engine.resize(); });
-            }
-        }, false);
+        // currentScene.scene.debugLayer.show();
+        // window.addEventListener("resize", () => { engine.resize(); });
+      }
+    }, false);
 
-    }
+  }
 }
