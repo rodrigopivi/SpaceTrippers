@@ -13,8 +13,8 @@ module Core.MainScene {
     private scene: Core.MainScene.Scene;
     private targetObject: BABYLON.Mesh;
     private originalRock: BABYLON.Mesh;
-    private numberOfRocks: number = 20;
-    private rocksSpeed: number = 1;
+    private numberOfRocks: number = 60;
+    private rocksSpeed: number = -2;
 
     public currentRocks: IRock[] = [];
     public rockIndexById: (meteorIndex: string) => number;
