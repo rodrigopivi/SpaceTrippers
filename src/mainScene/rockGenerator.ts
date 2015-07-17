@@ -50,7 +50,7 @@ module Core.MainScene {
       var rockMaterial = new BABYLON.StandardMaterial("rockTexture", this.scene.scene);
       // rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/meshes/rock/txt.jpg", this.scene.scene);
       rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/meshes/rock/rockTexture.jpg", this.scene.scene);
-      rockMaterial.bumpTexture = new BABYLON.Texture("/assets/meshes/rock/rockBump.png", this.scene.scene);
+      // rockMaterial.bumpTexture = new BABYLON.Texture("/assets/meshes/rock/rockBump.png", this.scene.scene);
       rockMaterial.backFaceCulling = false;
       BABYLON.SceneLoader.ImportMesh("", "/assets/meshes/rock/", "rock.babylon", this.scene.scene, (newMeshes: BABYLON.Mesh[]) => {
         this.originalRock = <BABYLON.Mesh>newMeshes[0];

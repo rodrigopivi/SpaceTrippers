@@ -157,7 +157,7 @@ module Core.MainScene {
           if (this.camera.position.z > this.track.rows.blocks[0].position.z + this.track.rows.blocks[0].scaling.z / 2) {
             this.track.repositionFirstLineOfBlocks();
           }
-          Core.Utilities.updateStats();
+          // Core.Utilities.updateStats();
           this.scene.render();
         });
       };
