@@ -13,6 +13,7 @@
         "src/mainScene/bulletTrigger.ts",
         "src/mainScene/mainScene.ts",
         "src/mainScene/meteoriteGenerator.ts",
+        "src/mainScene/morphingAnimationn.ts",
         "src/mainScene/rockGenerator.ts",
         "src/mainScene/spaceShip.ts",
         "src/mainScene/track.ts",

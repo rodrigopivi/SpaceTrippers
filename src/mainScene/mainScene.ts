@@ -16,7 +16,6 @@ module Core.MainScene {
 
     public scene: BABYLON.Scene;
     public assetsManager: BABYLON.AssetsManager;
-    public sharedLight: BABYLON.DirectionalLight;
     public sharedShadowGenerator: BABYLON.ShadowGenerator;
     public camera: BABYLON.FollowCamera;
 
@@ -40,16 +39,19 @@ module Core.MainScene {
       this.scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
       this.scene.fogDensity = 0.0019;
       this.scene.fogColor = new BABYLON.Color3(0, 0, 0);
+      this.scene.workerCollisions = true;
 
       this.scene.clearColor = new BABYLON.Color3(0.5, 1, 0.5);
       this.scene.ambientColor = new BABYLON.Color3(1, 0.3, 0.3);
-      this.light = new BABYLON.SpotLight("RocksSpotLight", new BABYLON.Vector3(0, 190, -140), new BABYLON.Vector3(0, -1, 1), 2, 1, this.scene);
-      this.light.intensity = 1.3;
+      this.light = new BABYLON.SpotLight("RocksSpotLight", new BABYLON.Vector3(0, 100, -50), new BABYLON.Vector3(0, -1, 1), 2, 1, this.scene);
+      this.light.intensity = 0.9;
       this.shadowGenerator = new BABYLON.ShadowGenerator(1024, <any>this.light);
       this.shadowGenerator.usePoissonSampling = true;
+      this.shadowGenerator.useVarianceShadowMap = false;
+      this.shadowGenerator.useBlurVarianceShadowMap = false;
 
-      this.sharedLight = this.light;
       this.sharedShadowGenerator = this.shadowGenerator;
+      this.sharedShadowGenerator.setTransparencyShadow(true);
 
       this.crateFollowCam = () => {
         this.camera = new BABYLON.FollowCamera("FollowCam", BABYLON.Vector3.Zero(), this.scene);
@@ -62,7 +64,7 @@ module Core.MainScene {
         this.camera.target = this.spaceShip.spaceShipMesh;
       };
 
-      backgroundImageTask = this.assetsManager.addImageTask("bgLoader", "/assets/earthbg.jpg");
+      backgroundImageTask = this.assetsManager.addImageTask("bgLoader", "/assets/earthbg.png");
 
       /* =============== Add Objects to Scene =============== */
       this.track = new Track(this.scene);
@@ -142,9 +144,9 @@ module Core.MainScene {
       this.assetsManager.onFinish = () => {
         this.addEventListeners();
         this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0.0000000000000001);
-        this.canvas.style.background = "url(" + backgroundImageTask["image"]["src"] + ")";
-        this.canvas.style.backgroundPositionY = "-300px";
-        this.canvas.style.backgroundPositionX = "-1235px";
+        this.canvas.style.backgroundImage = "url(" + backgroundImageTask["image"]["src"] + ")";
+        this.canvas.style.backgroundSize = "100% 100%";
+        this.canvas.style.backgroundRepeat = "no-repeat";
         this.rockGenerator.recursiveRocksCreation();
 
         engine.runRenderLoop(() => {

@@ -3,8 +3,7 @@ module Core.MainScene {
   export interface IRock {
     id: string;
     mesh: BABYLON.Mesh;
-    scale: number;
-    speed: number;
+    sunosoidalFrecuency: number;
     rotation: BABYLON.Vector3;
     isTransparent: boolean;
     laneIndex: number;
@@ -14,11 +13,12 @@ module Core.MainScene {
     private scene: Core.MainScene.Scene;
     private targetObject: BABYLON.Mesh;
     private originalRock: BABYLON.Mesh;
-    private numberOfRocks: number = 21;
+    private numberOfRocks: number = 20;
+    private rocksSpeed: number = 1;
 
     public currentRocks: IRock[] = [];
     public rockIndexById: (meteorIndex: string) => number;
-    public explodeRock: (rock: IRock) => void;
+    public explodeRock: (rock: IRock, sound?: string) => void;
     public removeRock: (rock: IRock) => void;
 
     public recursiveRocksCreation: () => void;
@@ -48,9 +48,11 @@ module Core.MainScene {
       };
 
       var rockMaterial = new BABYLON.StandardMaterial("rockTexture", this.scene.scene);
-      rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/rockTexture.jpg", this.scene.scene);
+      // rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/meshes/rock/txt.jpg", this.scene.scene);
+      rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/meshes/rock/rockTexture.jpg", this.scene.scene);
+      rockMaterial.bumpTexture = new BABYLON.Texture("/assets/meshes/rock/rockBump.png", this.scene.scene);
       rockMaterial.backFaceCulling = false;
-      BABYLON.SceneLoader.ImportMesh("", "/assets/", "rock.babylon", this.scene.scene, (newMeshes: BABYLON.Mesh[]) => {
+      BABYLON.SceneLoader.ImportMesh("", "/assets/meshes/rock/", "rock.babylon", this.scene.scene, (newMeshes: BABYLON.Mesh[]) => {
         this.originalRock = <BABYLON.Mesh>newMeshes[0];
         this.originalRock.isVisible = false;
         this.originalRock.material = rockMaterial;
@@ -78,14 +80,15 @@ module Core.MainScene {
       explosionSystem.minAngularSpeed = 0;
       explosionSystem.maxAngularSpeed = Math.PI;
       explosionSystem.minEmitPower = 1;
-      explosionSystem.maxEmitPower = 100;
+      explosionSystem.maxEmitPower = 50;
       explosionSystem.updateSpeed = 0.005;
       explosionSystem.targetStopDuration = 0.05;
       explosionSystem.disposeOnStop = true;
 
-      this.explodeRock = (rock: IRock): void => {
+      this.explodeRock = (rock: IRock, sound?: string): void => {
+        sound = sound || "explosion";
         rock.mesh.isVisible = false;
-        Core.Audio.playSoundFromAudioLib("explosion");
+        Core.Audio.playSoundFromAudioLib(sound);
         var newExplosionSystem = explosionSystem.clone("nExplosion" + rock.id, rock.mesh);
         newExplosionSystem.start();
         newExplosionSystem.onDispose = () => {
@@ -109,45 +112,45 @@ module Core.MainScene {
           this.scene.sharedShadowGenerator.getShadowMap().renderList.splice(shadowRenderListIndex, 1);
         }
         this.scene.scene._toBeDisposed.push(rock.mesh);
-        this.currentRocks.splice(this.rockIndexById(rock.id), 1);
-        this.recursiveRocksCreation();
+        var rockIndex = this.rockIndexById(rock.id);
+        if (rockIndex !== -1) { this.currentRocks.splice(rockIndex, 1); }
+        //this.recursiveRocksCreation();
       };
 
       this.recursiveRocksCreation = () => {
         if (this.currentRocks.length < this.numberOfRocks) {
-          setTimeout(() => { this.addRock(); this.recursiveRocksCreation(); }, Core.Utilities.getRandomInRange(2000, 4000));
+          this.addRock();
         }
+        setTimeout(() => { this.recursiveRocksCreation(); }, Core.Utilities.getRandomInRange(200, 1000));
       };
 
       this.addRock = (): void => {
         if (this.originalRock) {
           var id = "rockMesh:" + this.currentRocks.length;
           var laneIndex = Core.Utilities.getRandomInRange(0, this.scene.track.rows.lanesPositionX.length - 1);
+          // formula to get the frecuency multiplicator we want based on the rock speed (direction that goes from 1 to -2)
+          var sunosoidalFrecuencyMultiplicator = this.rocksSpeed >= 0 ? (1 + this.rocksSpeed) : (1 / Math.abs(this.rocksSpeed) + 1);
           var newRock: IRock = <IRock>{
             id: id,
             mesh: this.originalRock.clone(id),
-            scale: Core.Utilities.getRandomInRange(3, 4),
-            speed: Core.Utilities.getRandomInRange(2, 4) * 0.1 + 1,
+            // sinusoidal offset
+            sunosoidalFrecuency: Core.Utilities.getRandomInRange(20 * sunosoidalFrecuencyMultiplicator, 25 * sunosoidalFrecuencyMultiplicator),
             rotation: new BABYLON.Vector3(
-              Core.Utilities.getRandomInRange(-1, 1) * 0.01,
-              Core.Utilities.getRandomInRange(-1, 1) * 0.01,
-              Core.Utilities.getRandomInRange(-1, 1) * 0.01
+              Core.Utilities.getRandomInRange(-1, 1) * 0.015,
+              Core.Utilities.getRandomInRange(-1, 1) * 0.015,
+              Core.Utilities.getRandomInRange(-1, 1) * 0.015
               ),
             isTransparent: false,
             laneIndex: laneIndex
           };
           this.scene.sharedShadowGenerator.getShadowMap().renderList.push(newRock.mesh);
           this.currentRocks.push(newRock);
-          newRock.mesh.scaling = new BABYLON.Vector3(
-            newRock.mesh.scaling.x * newRock.scale,
-            newRock.mesh.scaling.y * newRock.scale,
-            newRock.mesh.scaling.z * newRock.scale);
 
           var vectorsWorld = newRock.mesh.getBoundingInfo().boundingBox.vectorsWorld; // summits of the bounding box
           var newRockHeight = vectorsWorld[1].subtract(vectorsWorld[0]).length();
           newRock.mesh.position = new BABYLON.Vector3(
             this.scene.track.rows.lanesPositionX[laneIndex],
-            3 + newRockHeight,
+            1 + (newRockHeight / 2),
             this.scene.track.rows.nextBlockPositionZ);
           newRock.mesh.renderingGroupId = 2;
           newRock.mesh.isVisible = true;
@@ -157,10 +160,13 @@ module Core.MainScene {
             newR.rotation.y += newRock.rotation.y;
             newR.rotation.x += newRock.rotation.x;
             newR.rotation.z += newRock.rotation.z;
-            newR.position.z += newRock.speed;
-
-            var sinusoidalYPosition = 24 + (7 + newRock.scale) * Math.sin(newR.position.z / (55 + newRock.speed));
-            if (sinusoidalYPosition - newRockHeight / 2 > 3) { newR.position.y = sinusoidalYPosition; }
+            newR.position.z += this.rocksSpeed;
+            /* Formula to generate the sinusoidal movement in a frecuency determined by the current speed.
+             * starts at 25 height (the rocks mesh height is 33~) and moves 10 up and down
+             */
+            var sinusoidalYPosition = (25) + (10 * Math.sin(newR.position.z / newRock.sunosoidalFrecuency));
+            newR.position.y = sinusoidalYPosition;
+            // if (sinusoidalYPosition - newRockHeight / 2 > 0) { newR.position.y = sinusoidalYPosition; }
             if (!newRock.isTransparent &&
               this.scene.spaceShip.spaceShipMesh.position.z - 25 > newR.position.z &&
               this.scene.spaceShipCurrentTrackLane === newRock.laneIndex) {
@@ -173,7 +179,7 @@ module Core.MainScene {
             if ((this.scene.spaceShipCurrentTrackLane === newRock.laneIndex ||
               this.scene.spaceShipTransitionTrackLane === newRock.laneIndex) &&
               newR.intersectsMesh(this.targetObject, false)) {
-              this.explodeRock(newRock);
+              this.explodeRock(newRock, "collision");
               this.scene.spaceShip.explode();
             }
           });
@@ -184,6 +190,7 @@ module Core.MainScene {
         this.currentRocks.forEach((aRock: IRock) => {
           if (this.scene.camera.position.z > aRock.mesh.position.z) {
             this.removeRock(aRock);
+            this.addRock();
           }
         });
       });

@@ -24,7 +24,7 @@ module Core.MainScene {
     constructor(scene: Scene, assetsManager: BABYLON.AssetsManager, afterLoadedCallback: (spaceShipMesh: BABYLON.AbstractMesh) => void) {
       this.scene = scene;
       this.assetsManager = assetsManager;
-      var spaceShipMeskLoaderTask = assetsManager.addMeshTask("SpaceShip", "", "/assets/", "spaceShip.babylon");
+      var spaceShipMeskLoaderTask = assetsManager.addMeshTask("SpaceShip", "", "/assets/meshes/spaceShip/", "spaceShip.babylon");
 
       this.moveUp = (animationEndCallback?: () => void): void => {
         if (!this.moveDownAnimation && !this.moveUpAnimation && this.jumpCount < 1) {
@@ -89,8 +89,8 @@ module Core.MainScene {
         particles.renderingGroupId = 2;
         particles.particleTexture = new BABYLON.Texture("/assets/star.png", this.scene.scene);
         particles.emitter = this.spaceShipMesh;
-        particles.minEmitBox = new BABYLON.Vector3(0, -270, 50);
-        particles.maxEmitBox = new BABYLON.Vector3(0, -270, 50);
+        particles.minEmitBox = new BABYLON.Vector3(0, -15, 3);
+        particles.maxEmitBox = new BABYLON.Vector3(0, -15, 3);
         particles.direction1 = new BABYLON.Vector3(-.3, -1, -1);
         particles.direction2 = new BABYLON.Vector3(-.3, -1, -1);
         particles.gravity = new BABYLON.Vector3(0, -.05, 0);
@@ -131,12 +131,12 @@ module Core.MainScene {
       hitExplosion.emitRate = 900;
       hitExplosion.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
       hitExplosion.gravity = new BABYLON.Vector3(0, 0, 0);
-      hitExplosion.direction1 = new BABYLON.Vector3(-50, 0, -50);
-      hitExplosion.direction2 = new BABYLON.Vector3(50, 50, 50);
+      hitExplosion.direction1 = new BABYLON.Vector3(-30, 0, -30);
+      hitExplosion.direction2 = new BABYLON.Vector3(30, 30, 30);
       hitExplosion.minAngularSpeed = 0;
       hitExplosion.maxAngularSpeed = Math.PI;
       hitExplosion.minEmitPower = 1;
-      hitExplosion.maxEmitPower = 100;
+      hitExplosion.maxEmitPower = 10;
       hitExplosion.updateSpeed = 0.005;
       hitExplosion.targetStopDuration = 0.05;
       hitExplosion.disposeOnStop = true;
@@ -152,7 +152,9 @@ module Core.MainScene {
       /* ============== Event listeners ============== */
       spaceShipMeskLoaderTask.onSuccess = (task: BABYLON.MeshAssetTask) => {
         this.spaceShipMesh = <BABYLON.Mesh>task.loadedMeshes[0];
-        this.spaceShipMesh.rotate(BABYLON.Axis.Z, Math.PI, BABYLON.Space.LOCAL);
+        // this.spaceShipMesh.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.LOCAL);
+        // this.spaceShipMesh.rotate(BABYLON.Axis.Y, Math.PI, BABYLON.Space.LOCAL);
+        // this.spaceShipMesh.rotate(BABYLON.Axis.Z, Math.PI, BABYLON.Space.LOCAL);
 
         this.createPropulsionAnimation();
         this.bulletTrigger = new BulletTrigger(this.scene, this.spaceShipMesh);
