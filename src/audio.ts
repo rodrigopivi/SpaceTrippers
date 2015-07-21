@@ -31,6 +31,6 @@ module Core.Audio {
     var source = audioContext.createBufferSource();
     source.buffer = library[soundId];
     source.connect(audioContext.destination);
-    source.start(0);
+    source.start ? source.start(0) : source["noteOn"](0);
   }
 }

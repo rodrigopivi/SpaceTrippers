@@ -87,7 +87,7 @@ module Core.MainScene {
             if (bullet.mesh.position.z - this.bulletsOrigin.position.z > 700) {
               this.removeBullet(bullet);
             } else {
-              bullet.mesh.position.z += 5;
+              bullet.mesh.position.z += this.scene.spaceShip.speed * 2;
             }
 
             var collidableRocks = this.scene.rockGenerator.getRocksAtLanes(bullet.collidableLanes);

@@ -39,7 +39,7 @@ module Core.MainScene {
       this.scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
       this.scene.fogDensity = 0.0019;
       this.scene.fogColor = new BABYLON.Color3(0, 0, 0);
-      this.scene.workerCollisions = true;
+      // this.scene.workerCollisions = true;
 
       this.scene.clearColor = new BABYLON.Color3(0.5, 1, 0.5);
       this.scene.ambientColor = new BABYLON.Color3(1, 0.3, 0.3);
@@ -150,14 +150,14 @@ module Core.MainScene {
         this.rockGenerator.recursiveRocksCreation();
 
         engine.runRenderLoop(() => {
-          this.spaceShip.spaceShipMesh.position.z += 3;
+          this.spaceShip.spaceShipMesh.position.z += this.spaceShip.speed;
           this.light.position.x = this.spaceShip.spaceShipMesh.position.x;
           this.light.position.y = this.spaceShip.spaceShipMesh.position.y + 190;
           this.light.position.z = this.spaceShip.spaceShipMesh.position.z - 140;
           if (this.camera.position.z > this.track.rows.blocks[0].position.z + this.track.rows.blocks[0].scaling.z / 2) {
             this.track.repositionFirstLineOfBlocks();
           }
-          // Core.Utilities.updateStats();
+          Core.Utilities.updateStats();
           this.scene.render();
         });
       };

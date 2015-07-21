@@ -9,13 +9,21 @@ module Core.MainScene {
     laneIndex: number;
   }
 
+  export interface INextRockPosition {
+    laneIndex: number;
+    z: number;
+  }
+
   export class RockGenerator {
     private scene: Core.MainScene.Scene;
     private targetObject: BABYLON.Mesh;
     private originalRock: BABYLON.Mesh;
-    private numberOfRocks: number = 60;
+    private numberOfRocks: number = 50;
     private rocksSpeed: number = -2;
-
+    private rocksDistanceFromShip: number = 1100;
+    private minRocksSeparation: number = 10;
+    private lastRocksAtLanesLog: number[] = [];
+    private getNextRockPosition: () => INextRockPosition;
     public currentRocks: IRock[] = [];
     public rockIndexById: (meteorIndex: string) => number;
     public explodeRock: (rock: IRock, sound?: string) => void;
@@ -28,29 +36,11 @@ module Core.MainScene {
     constructor(scene: Scene, targetObject: BABYLON.Mesh) {
       this.scene = scene;
       this.targetObject = targetObject;
-      this.rockIndexById = (meteorIndex: string): number => {
-        var mIndex = -1;
-        this.currentRocks.some((meteor: any, index: number) => {
-          var found = false;
-          if (meteor.id === meteorIndex) {
-            mIndex = index;
-            found = true;
-          }
-          return found;
-        });
-        return mIndex;
-      };
-
-      this.getRocksAtLanes = (lanes: number[]): IRock[] => {
-        return this.currentRocks.filter((rock: IRock) => {
-          return rock.mesh.isVisible && lanes.indexOf(rock.laneIndex) !== -1;
-        });
-      };
 
       var rockMaterial = new BABYLON.StandardMaterial("rockTexture", this.scene.scene);
       // rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/meshes/rock/txt.jpg", this.scene.scene);
       rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/meshes/rock/rockTexture.jpg", this.scene.scene);
-      // rockMaterial.bumpTexture = new BABYLON.Texture("/assets/meshes/rock/rockBump.png", this.scene.scene);
+      rockMaterial.bumpTexture = new BABYLON.Texture("/assets/meshes/rock/rockBump.png", this.scene.scene);
       rockMaterial.backFaceCulling = false;
       BABYLON.SceneLoader.ImportMesh("", "/assets/meshes/rock/", "rock.babylon", this.scene.scene, (newMeshes: BABYLON.Mesh[]) => {
         this.originalRock = <BABYLON.Mesh>newMeshes[0];
@@ -58,7 +48,6 @@ module Core.MainScene {
         this.originalRock.material = rockMaterial;
         this.originalRock.receiveShadows = true;
       });
-
 
       var explosionSystem = new BABYLON.ParticleSystem("rockExplosion", 1000, this.scene.scene);
       explosionSystem.renderingGroupId = 2;
@@ -84,6 +73,41 @@ module Core.MainScene {
       explosionSystem.updateSpeed = 0.005;
       explosionSystem.targetStopDuration = 0.05;
       explosionSystem.disposeOnStop = true;
+
+
+      this.rockIndexById = (meteorIndex: string): number => {
+        var mIndex = -1;
+        this.currentRocks.some((meteor: any, index: number) => {
+          var found = false;
+          if (meteor.id === meteorIndex) {
+            mIndex = index;
+            found = true;
+          }
+          return found;
+        });
+        return mIndex;
+      };
+
+      this.getRocksAtLanes = (lanes: number[]): IRock[] => {
+        return this.currentRocks.filter((rock: IRock) => {
+          return rock.mesh.isVisible && lanes.indexOf(rock.laneIndex) !== -1;
+        });
+      };
+
+      this.getNextRockPosition = (): INextRockPosition => {
+        var ret: INextRockPosition = {
+          laneIndex: Core.Utilities.getRandomInRange(0, this.scene.track.rows.lanesPositionX.length - 1),
+          z: this.scene.spaceShip.spaceShipMesh.position.z + this.rocksDistanceFromShip
+        };
+        // first test with a random lane
+        if (this.lastRocksAtLanesLog[ret.laneIndex] !== undefined
+          && this.lastRocksAtLanesLog[ret.laneIndex] + this.minRocksSeparation > ret.z) {
+          ret.z  += this.minRocksSeparation;
+        }
+        // update the lanes rocks log
+        this.lastRocksAtLanesLog[ret.laneIndex] = ret.z;
+        return ret;
+      };
 
       this.explodeRock = (rock: IRock, sound?: string): void => {
         sound = sound || "explosion";
@@ -113,23 +137,26 @@ module Core.MainScene {
         }
         this.scene.scene._toBeDisposed.push(rock.mesh);
         var rockIndex = this.rockIndexById(rock.id);
-        if (rockIndex !== -1) { this.currentRocks.splice(rockIndex, 1); }
-        //this.recursiveRocksCreation();
+        if (rockIndex !== -1) {
+          this.currentRocks.splice(rockIndex, 1);
+        }
+        // this.recursiveRocksCreation();
       };
 
       this.recursiveRocksCreation = () => {
         if (this.currentRocks.length < this.numberOfRocks) {
           this.addRock();
         }
-        setTimeout(() => { this.recursiveRocksCreation(); }, Core.Utilities.getRandomInRange(200, 1000));
+        setTimeout(() => { this.recursiveRocksCreation(); }, Core.Utilities.getRandomInRange(100, 400));
       };
 
       this.addRock = (): void => {
+        var rockPosition = this.getNextRockPosition();
         if (this.originalRock) {
           var id = "rockMesh:" + this.currentRocks.length;
-          var laneIndex = Core.Utilities.getRandomInRange(0, this.scene.track.rows.lanesPositionX.length - 1);
-          // formula to get the frecuency multiplicator we want based on the rock speed (direction that goes from 1 to -2)
-          var sunosoidalFrecuencyMultiplicator = this.rocksSpeed >= 0 ? (1 + this.rocksSpeed) : (1 / Math.abs(this.rocksSpeed) + 1);
+          var relativeSpeed = this.rocksSpeed - this.scene.spaceShip.speed;
+          // formula for the frecuency multiplicator we want based on the rock speed (direction that goes from positive to negative with difficulty)
+          var sunosoidalFrecuencyMultiplicator = relativeSpeed >= 0 ? (1 + relativeSpeed) : ((1 / Math.abs(relativeSpeed) + 1) + 1);
           var newRock: IRock = <IRock>{
             id: id,
             mesh: this.originalRock.clone(id),
@@ -141,7 +168,7 @@ module Core.MainScene {
               Core.Utilities.getRandomInRange(-1, 1) * 0.015
               ),
             isTransparent: false,
-            laneIndex: laneIndex
+            laneIndex: rockPosition.laneIndex
           };
           this.scene.sharedShadowGenerator.getShadowMap().renderList.push(newRock.mesh);
           this.currentRocks.push(newRock);
@@ -149,13 +176,12 @@ module Core.MainScene {
           var vectorsWorld = newRock.mesh.getBoundingInfo().boundingBox.vectorsWorld; // summits of the bounding box
           var newRockHeight = vectorsWorld[1].subtract(vectorsWorld[0]).length();
           newRock.mesh.position = new BABYLON.Vector3(
-            this.scene.track.rows.lanesPositionX[laneIndex],
+            this.scene.track.rows.lanesPositionX[rockPosition.laneIndex],
             1 + (newRockHeight / 2),
-            this.scene.track.rows.nextBlockPositionZ);
+            rockPosition.z);
           newRock.mesh.renderingGroupId = 2;
           newRock.mesh.isVisible = true;
 
-          // this render loop runs only when the rock is viewable
           newRock.mesh.registerBeforeRender((newR: BABYLON.Mesh) => {
             newR.rotation.y += newRock.rotation.y;
             newR.rotation.x += newRock.rotation.x;
@@ -185,7 +211,8 @@ module Core.MainScene {
           });
         }
       };
-      // rocks destroyer
+
+      // Add a rocks destroyer at our render loop
       this.scene.scene.registerBeforeRender(() => {
         this.currentRocks.forEach((aRock: IRock) => {
           if (this.scene.camera.position.z > aRock.mesh.position.z) {
@@ -194,6 +221,7 @@ module Core.MainScene {
           }
         });
       });
+
     }
   }
 }

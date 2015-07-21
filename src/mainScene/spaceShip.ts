@@ -13,6 +13,7 @@ module Core.MainScene {
     private bulletTrigger: Core.MainScene.BulletTrigger;
     private jumpCount: number = 0;
 
+    public speed: number = 5;
     public isXMoving: boolean = false;
     public triggerShot: () => void;
     public moveUp: (animationEndCallback?: () => void) => void;

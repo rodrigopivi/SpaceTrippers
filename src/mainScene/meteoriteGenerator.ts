@@ -6,7 +6,6 @@ module Core.MainScene {
     smokeTail: BABYLON.ParticleSystem;
     fireTail: BABYLON.ParticleSystem;
     direction: BABYLON.Vector3;
-    targetPosition: BABYLON.Vector3;
   }
 
   export class MeteoriteGenerator {
@@ -94,8 +93,7 @@ module Core.MainScene {
       this.addMeteorite = () => {
         var meteorId = "meteor-" + Math.random().toString(36).substring(7);
         var targetPosition = this.targetObject.position.clone();
-        targetPosition.z += 150;
-        targetPosition.y = this.targetObject.position.y;
+        targetPosition.z += Core.Utilities.getRandomInRange(105, 135) * this.scene.spaceShip.speed;
 
         var meteor = this.originalMeteorite.clone(meteorId);
         meteor.isVisible = true;
@@ -155,15 +153,14 @@ module Core.MainScene {
       this.scene.scene.registerBeforeRender((): void => {
         if (this.currentMeteorites.length) {
           this.currentMeteorites.forEach((meteor: IMeteorite, index: number) => {
-            if (meteor.mesh && meteor.mesh.position.z < this.targetObject.position.z - 100) {
+            if (meteor.mesh && meteor.mesh.position.z < this.targetObject.position.z - 90) {
               this.scene.scene._toBeDisposed.push(meteor.mesh);
               this.currentMeteorites.splice(index, 1);
             } else {
-              var direction = meteor.targetPosition.subtract(meteor.mesh.position);
               var newPosition = new BABYLON.Vector3(
-                direction.x * 0.05,
-                direction.y * 0.05,
-                direction.z * 0.05
+                meteor.direction.x * -0.009,
+                meteor.direction.y * -0.009,
+                meteor.direction.z * -0.009
                 );
               meteor.mesh.position.addInPlace(newPosition);
             }

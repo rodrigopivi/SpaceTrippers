@@ -24,8 +24,18 @@ module Core {
 
         canvas = <HTMLCanvasElement>document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
-
         currentScene = new Core.MainScene.Scene(canvas, engine);
+
+        // TODO: refactor this hack to activate sound for iOS WKWebView (need an event first to activate WebAudioApi)
+        var audioEnabled = false;
+        var hacktivateWebkitWebAudioFn = () => {
+          if (!audioEnabled) { // we just need to hacktivate sound one time.
+              Audio.playSoundFromAudioLib("move");
+              audioEnabled = true;
+              canvas.removeEventListener("touchmove", hacktivateWebkitWebAudioFn, false);
+          }
+        };
+        canvas.addEventListener("touchmove", hacktivateWebkitWebAudioFn, false);
 
         // currentScene.scene.debugLayer.show();
         // window.addEventListener("resize", () => { engine.resize(); });
