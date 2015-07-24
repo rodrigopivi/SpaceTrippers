@@ -25,6 +25,7 @@ module Core.MainScene {
     public track: Core.MainScene.Track;
     public meteoriteGenerator: Core.MainScene.MeteoriteGenerator;
     public rockGenerator: Core.MainScene.RockGenerator;
+    public runRenderLoop: () => void;
 
     constructor(canvas: HTMLCanvasElement, engine: BABYLON.Engine) {
       var onKeyDownHandler: (event: KeyboardEvent) => void,
@@ -37,7 +38,7 @@ module Core.MainScene {
       this.scene = new BABYLON.Scene(engine);
       this.assetsManager = new BABYLON.AssetsManager(this.scene);
       this.scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
-      this.scene.fogDensity = 0.0019;
+      this.scene.fogDensity = 0.00199;
       this.scene.fogColor = new BABYLON.Color3(0, 0, 0);
       // this.scene.workerCollisions = true;
 
@@ -58,7 +59,7 @@ module Core.MainScene {
         this.camera.radius = 80;
         this.camera.heightOffset = 25;
         this.camera.rotationOffset = 0;
-        this.camera.cameraAcceleration = 0.05;
+        this.camera.cameraAcceleration = 0.09;
         this.camera.maxCameraSpeed = 20;
         this.camera.inertia = 0.5;
         this.camera.target = this.spaceShip.spaceShipMesh;
@@ -140,16 +141,10 @@ module Core.MainScene {
       this.assetsManager.onTaskError = (task: BABYLON.MeshAssetTask) => {
         console.log("error while loading " + task.name);
       };
-      // Create the render loop once all the assets are loaded
-      this.assetsManager.onFinish = () => {
-        this.addEventListeners();
-        this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0.0000000000000001);
-        this.canvas.style.backgroundImage = "url(" + backgroundImageTask["image"]["src"] + ")";
-        this.canvas.style.backgroundSize = "100% 100%";
-        this.canvas.style.backgroundRepeat = "no-repeat";
-        this.rockGenerator.recursiveRocksCreation();
 
+      this.runRenderLoop = () => {
         engine.runRenderLoop(() => {
+          if (!Core.Game.isEngineLoopRunning) Core.Game.isEngineLoopRunning = true;
           this.spaceShip.spaceShipMesh.position.z += this.spaceShip.speed;
           this.light.position.x = this.spaceShip.spaceShipMesh.position.x;
           this.light.position.y = this.spaceShip.spaceShipMesh.position.y + 190;
@@ -160,6 +155,18 @@ module Core.MainScene {
           Core.Utilities.updateStats();
           this.scene.render();
         });
+      }
+
+      // Create the render loop once all the assets are loaded
+      this.assetsManager.onFinish = () => {
+        this.addEventListeners();
+        this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0.0000000000000001);
+        this.canvas.style.backgroundImage = "url(" + backgroundImageTask["image"]["src"] + ")";
+        this.canvas.style.backgroundSize = "100% 100%";
+        this.canvas.style.backgroundRepeat = "no-repeat";
+        this.rockGenerator.recursiveRocksCreation();
+        this.meteoriteGenerator.recursiveMeteoritesCreation();
+        this.runRenderLoop();
       };
 
       engine.loadingUIBackgroundColor = "Black";

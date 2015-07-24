@@ -17,6 +17,7 @@ module Core {
     export var canvas: HTMLCanvasElement;
     export var engine: BABYLON.Engine;
     export var currentScene: Core.MainScene.Scene;
+    export var isEngineLoopRunning: boolean = false;
 
     document.addEventListener("DOMContentLoaded", () => {
       if (BABYLON.Engine.isSupported()) {
@@ -36,7 +37,14 @@ module Core {
           }
         };
         canvas.addEventListener("touchmove", hacktivateWebkitWebAudioFn, false);
-
+        window.addEventListener("browsertabchanged", (e: any) => {
+          if (e.active) {
+            currentScene.runRenderLoop();
+          } else {
+            isEngineLoopRunning = false;
+            engine.stopRenderLoop();
+          }
+        }, false);
         // currentScene.scene.debugLayer.show();
         // window.addEventListener("resize", () => { engine.resize(); });
       }

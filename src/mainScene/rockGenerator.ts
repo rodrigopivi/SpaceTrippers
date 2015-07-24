@@ -18,10 +18,10 @@ module Core.MainScene {
     private scene: Core.MainScene.Scene;
     private targetObject: BABYLON.Mesh;
     private originalRock: BABYLON.Mesh;
-    private numberOfRocks: number = 50;
-    private rocksSpeed: number = -2;
-    private rocksDistanceFromShip: number = 1100;
-    private minRocksSeparation: number = 10;
+    private numberOfRocks: number = 40;
+    private rocksSpeed: number = -3; // should go from 1 to -3
+    private rocksDistanceFromShip: number = 900;
+    private minRocksSeparation: number = 11;
     private lastRocksAtLanesLog: number[] = [];
     private getNextRockPosition: () => INextRockPosition;
     public currentRocks: IRock[] = [];
@@ -39,7 +39,7 @@ module Core.MainScene {
 
       var rockMaterial = new BABYLON.StandardMaterial("rockTexture", this.scene.scene);
       // rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/meshes/rock/txt.jpg", this.scene.scene);
-      rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/meshes/rock/rockTexture.jpg", this.scene.scene);
+      // rockMaterial.diffuseTexture = new BABYLON.Texture("/assets/meshes/rock/rockTexture.jpg", this.scene.scene);
       rockMaterial.bumpTexture = new BABYLON.Texture("/assets/meshes/rock/rockBump.png", this.scene.scene);
       rockMaterial.backFaceCulling = false;
       BABYLON.SceneLoader.ImportMesh("", "/assets/meshes/rock/", "rock.babylon", this.scene.scene, (newMeshes: BABYLON.Mesh[]) => {
@@ -49,7 +49,7 @@ module Core.MainScene {
         this.originalRock.receiveShadows = true;
       });
 
-      var explosionSystem = new BABYLON.ParticleSystem("rockExplosion", 1000, this.scene.scene);
+      var explosionSystem = new BABYLON.ParticleSystem("rockExplosion", 900, this.scene.scene);
       explosionSystem.renderingGroupId = 2;
       explosionSystem.particleTexture = new BABYLON.Texture("/assets/flare.png", this.scene.scene);
       explosionSystem.minEmitBox = new BABYLON.Vector3(0, 0, 0);
@@ -144,7 +144,7 @@ module Core.MainScene {
       };
 
       this.recursiveRocksCreation = () => {
-        if (this.currentRocks.length < this.numberOfRocks) {
+        if (Core.Game.isEngineLoopRunning && this.currentRocks.length < this.numberOfRocks) {
           this.addRock();
         }
         setTimeout(() => { this.recursiveRocksCreation(); }, Core.Utilities.getRandomInRange(100, 400));

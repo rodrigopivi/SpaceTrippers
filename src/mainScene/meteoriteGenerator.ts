@@ -18,6 +18,7 @@ module Core.MainScene {
     private meteoriteMaterial: BABYLON.StandardMaterial;
 
     public addMeteorite: () => void;
+    public recursiveMeteoritesCreation: () => void;
 
     constructor(scene: Core.MainScene.Scene, targetObject: BABYLON.Mesh) {
       this.scene = scene;
@@ -46,7 +47,7 @@ module Core.MainScene {
         return mIndex;
       };
 
-      var meteorSmokeTail = new BABYLON.ParticleSystem("smokeTail", 400, this.scene.scene);
+      var meteorSmokeTail = new BABYLON.ParticleSystem("smokeTail", 300, this.scene.scene);
       meteorSmokeTail.renderingGroupId = 2;
       meteorSmokeTail.particleTexture = new BABYLON.Texture("/assets/flare.png", this.scene.scene);
       meteorSmokeTail.minEmitBox = new BABYLON.Vector3(0, 0, 1);
@@ -68,7 +69,7 @@ module Core.MainScene {
       meteorSmokeTail.updateSpeed = 0.006;
       meteorSmokeTail.disposeOnStop = false;
 
-      var meteorFireTail = new BABYLON.ParticleSystem("fireTail", 400, this.scene.scene);
+      var meteorFireTail = new BABYLON.ParticleSystem("fireTail", 300, this.scene.scene);
       meteorFireTail.renderingGroupId = 2;
       meteorFireTail.particleTexture = new BABYLON.Texture("/assets/flare.png", this.scene.scene);
       meteorFireTail.minEmitBox = new BABYLON.Vector3(0, 0, 1);
@@ -140,15 +141,12 @@ module Core.MainScene {
         });
       };
 
-      var recursiveMeteoritesCreation = (): void => {
-        setTimeout(() => {
-          if (this.currentMeteorites.length < 10) {
-            this.addMeteorite();
-          }
-          recursiveMeteoritesCreation();
-        }, Core.Utilities.getRandomInRange(300, 2000));
+      this.recursiveMeteoritesCreation = () => {
+        if (Core.Game.isEngineLoopRunning && this.currentMeteorites.length < 10) {
+          this.addMeteorite();
+        }
+        setTimeout(() => { this.recursiveMeteoritesCreation(); }, Core.Utilities.getRandomInRange(500, 2000));
       };
-      recursiveMeteoritesCreation();
 
       this.scene.scene.registerBeforeRender((): void => {
         if (this.currentMeteorites.length) {
