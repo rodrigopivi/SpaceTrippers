@@ -8,6 +8,7 @@ module Core.MainScene {
     private moveXAnimation: BABYLON.Animation;
 
     private bulletTrigger: Core.MainScene.BulletTrigger;
+    private originalHitExplosion: BABYLON.ParticleSystem;
 
     public speed: number = 3; // should go from 3 to 5
     public isXMoving: boolean = false;
@@ -18,13 +19,14 @@ module Core.MainScene {
     public moveUp: () => void;
     public moveDown: () => void;
     public spaceShipMesh: BABYLON.Mesh;
-    public moveShipMeshToLane: (newLane: number, animationEndCallback: () => void) => void;
-    public explode: (afterDispose?: () => void) => void;
+    public moveShipMeshToLane: (newLane: number, animationEndCallback: Function) => void;
+    public explode: (afterDispose?: Function) => void;
 
     constructor(scene: Scene, afterLoadedCallback: () => void) {
       var self = this;
       this.scene = scene;
-      var spaceShipMeskLoaderTask = this.scene.assetsManager.addMeshTask("SpaceShip", "", "/assets/meshes/spaceShip/", "spaceShip.babylon");
+      preloadAssets();
+      createOriginalHitExplosion();
 
       this.moveUp = (): void => {
         if (!this.moveUpAnimation) {
@@ -66,7 +68,7 @@ module Core.MainScene {
         }
       };
 
-      this.moveShipMeshToLane = (newLane: number, animationEndCallback: () => void) => {
+      this.moveShipMeshToLane = (newLane: number, animationEndCallback: Function): void => {
         if (!this.isXMoving) {
           this.isXMoving = true;
           var easingFunction = new BABYLON.PowerEase();
@@ -93,34 +95,8 @@ module Core.MainScene {
         }
       };
 
-      var texture = new BABYLON.Texture("/assets/flare.png", this.scene.scene);
-      var hitExplosion = new BABYLON.ParticleSystem("hitExplosion", 900, this.scene.scene);
-      hitExplosion.renderingGroupId = 2;
-      hitExplosion.particleTexture = texture;
-      hitExplosion.emitter = this.spaceShipMesh;
-      hitExplosion.minEmitBox = new BABYLON.Vector3(0, 0, 0);
-      hitExplosion.maxEmitBox = new BABYLON.Vector3(0, 0, 0);
-      hitExplosion.color1 = new BABYLON.Color4(0.5, 0.3, 0.1, 1);
-      hitExplosion.color2 = new BABYLON.Color4(0.8, 0.1, 0.1, 1);
-      hitExplosion.colorDead = new BABYLON.Color4(1, 0, 0, 0);
-      hitExplosion.minSize = 10;
-      hitExplosion.maxSize = 13;
-      hitExplosion.minLifeTime = 1;
-      hitExplosion.maxLifeTime = 1;
-      hitExplosion.emitRate = 900;
-      hitExplosion.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
-      hitExplosion.gravity = new BABYLON.Vector3(0, 0, 0);
-      hitExplosion.direction1 = new BABYLON.Vector3(-30, 0, -30);
-      hitExplosion.direction2 = new BABYLON.Vector3(30, 30, 30);
-      hitExplosion.minAngularSpeed = 0;
-      hitExplosion.maxAngularSpeed = Math.PI;
-      hitExplosion.minEmitPower = 1;
-      hitExplosion.maxEmitPower = 10;
-      hitExplosion.updateSpeed = 0.005;
-      hitExplosion.targetStopDuration = 0.05;
-      hitExplosion.disposeOnStop = true;
-      this.explode = (afterDispose?: () => void): void => {
-        var newExplosion = hitExplosion.clone("hitExplosionX", this.spaceShipMesh);
+      this.explode = (afterDispose?: Function): void => {
+        var newExplosion = this.originalHitExplosion.clone("hitExplosionX", this.spaceShipMesh);
         Core.Audio.playSoundFromAudioLib("hit");
         newExplosion.start();
         if (afterDispose) {
@@ -128,16 +104,18 @@ module Core.MainScene {
         }
       };
 
-      /* ============== Event listeners ============== */
-      spaceShipMeskLoaderTask.onSuccess = (task: BABYLON.MeshAssetTask) => {
-        this.spaceShipMesh = <BABYLON.Mesh>task.loadedMeshes[0];
-        this.spaceShipMesh.receiveShadows = true;
-        this.spaceShipMesh.renderingGroupId = 2;
-        this.scene.shadowGenerator.getShadowMap().renderList.push(this.spaceShipMesh);
-        createPropulsionAnimation();
-        this.bulletTrigger = new BulletTrigger(this.scene, this.spaceShipMesh);
-        afterLoadedCallback();
-      };
+      function preloadAssets(): void {
+        var spaceShipMeskLoaderTask = self.scene.assetsManager.addMeshTask("SpaceShip", "", "/assets/meshes/spaceShip/", "spaceShip.babylon");
+        spaceShipMeskLoaderTask.onSuccess = (task: BABYLON.MeshAssetTask) => {
+          self.spaceShipMesh = <BABYLON.Mesh>task.loadedMeshes[0];
+          self.spaceShipMesh.receiveShadows = true;
+          self.spaceShipMesh.renderingGroupId = 2;
+          self.scene.shadowGenerator.getShadowMap().renderList.push(self.spaceShipMesh);
+          createPropulsionAnimation();
+          self.bulletTrigger = new BulletTrigger(self.scene, self.spaceShipMesh);
+          afterLoadedCallback();
+        };
+      }
 
       function createPropulsionAnimation(): void {
         var particles = new BABYLON.ParticleSystem("shipPropulsion", 400, self.scene.scene);
@@ -160,6 +138,36 @@ module Core.MainScene {
         particles.minEmitPower = 2;
         particles.maxEmitPower = 2;
         particles.start();
+      }
+
+      function createOriginalHitExplosion () {
+        var texture = new BABYLON.Texture("/assets/flare.png", self.scene.scene);
+        var hitExplosion = new BABYLON.ParticleSystem("hitExplosion", 900, self.scene.scene);
+        hitExplosion.renderingGroupId = 2;
+        hitExplosion.particleTexture = texture;
+        hitExplosion.emitter = self.spaceShipMesh;
+        hitExplosion.minEmitBox = new BABYLON.Vector3(0, 0, 0);
+        hitExplosion.maxEmitBox = new BABYLON.Vector3(0, 0, 0);
+        hitExplosion.color1 = new BABYLON.Color4(0.5, 0.3, 0.1, 1);
+        hitExplosion.color2 = new BABYLON.Color4(0.8, 0.1, 0.1, 1);
+        hitExplosion.colorDead = new BABYLON.Color4(1, 0, 0, 0);
+        hitExplosion.minSize = 10;
+        hitExplosion.maxSize = 13;
+        hitExplosion.minLifeTime = 1;
+        hitExplosion.maxLifeTime = 1;
+        hitExplosion.emitRate = 900;
+        hitExplosion.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
+        hitExplosion.gravity = new BABYLON.Vector3(0, 0, 0);
+        hitExplosion.direction1 = new BABYLON.Vector3(-30, 0, -30);
+        hitExplosion.direction2 = new BABYLON.Vector3(30, 30, 30);
+        hitExplosion.minAngularSpeed = 0;
+        hitExplosion.maxAngularSpeed = Math.PI;
+        hitExplosion.minEmitPower = 1;
+        hitExplosion.maxEmitPower = 10;
+        hitExplosion.updateSpeed = 0.005;
+        hitExplosion.targetStopDuration = 0.05;
+        hitExplosion.disposeOnStop = true;
+        self.originalHitExplosion = hitExplosion;
       }
 
     }

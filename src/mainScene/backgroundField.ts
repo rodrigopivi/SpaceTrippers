@@ -61,28 +61,23 @@ module Core.MainScene {
             self.scene.spaceShip.speed += 0.0015;
             if (roundedPos % 500 === 0) {
               self.scene.rockGenerator.numberOfRocks++;
-              self.scene.rockGenerator.generatorTimeout =
-              (12 / self.scene.rockGenerator.numberOfRocks)
-              * (1 / (self.scene.spaceShip.speed - self.scene.rockGenerator.rocksSpeed)) * 2000;
+              self.scene.rockGenerator.rocksSpeed += 0.001;
             }
           } else {
             if (!shown) {
               shown = true;
               console.log(self.scene.rockGenerator.numberOfRocks);
               console.log(self.scene.rockGenerator.rocksSpeed);
-              console.log(self.scene.rockGenerator.generatorTimeout);
               console.log(self.scene.spaceShip.speed);
             }
             if (alpha >= 0.00025)  {
               bgSpeed -= 0.0000005;
               pointLongitude -= 0.00004;
               alpha -= 0.00025;
-              self.scene.spaceShip.speed -= 0.0015;
+              self.scene.spaceShip.speed -= 0.0018;
               if (roundedPos % 500 === 0) {
                 self.scene.rockGenerator.numberOfRocks--;
-                self.scene.rockGenerator.generatorTimeout =
-                (12 / self.scene.rockGenerator.numberOfRocks)
-                * (1 / (self.scene.spaceShip.speed - self.scene.rockGenerator.rocksSpeed)) * 2000;
+                self.scene.rockGenerator.rocksSpeed -= 0.001;
               }
             } else {
               // next level

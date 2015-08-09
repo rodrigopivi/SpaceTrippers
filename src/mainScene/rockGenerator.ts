@@ -21,8 +21,7 @@ module Core.MainScene {
     private originalExplosion: BABYLON.ParticleSystem;
 
     public numberOfRocks: number = 30; // should go from 30 to 60
-    public rocksSpeed: number = -1; // should go from -1 to -3
-    public generatorTimeout: number = 70; // should go from 150 to 55
+    public rocksSpeed: number = -0.5; // should go from -1 to -3
     public rocksDistanceFromShip: number = 900;
 
     private minRocksSeparation: number = 14;
@@ -36,7 +35,6 @@ module Core.MainScene {
     constructor(scene: Scene) {
       var self = this;
       this.scene = scene;
-      this.generatorTimeout = (12 / this.numberOfRocks) * (1 / (this.scene.spaceShip.speed - this.rocksSpeed)) * 2000;
       preloadAssets();
       createOriginalExplosion();
       registerRenderer();
@@ -63,7 +61,8 @@ module Core.MainScene {
         if (!Core.Game.isPaused && this.currentRocks.length < this.numberOfRocks) {
           addRock(rockTarget);
         }
-        setTimeout(() => { this.recursiveRocksCreation(rockTarget); }, this.generatorTimeout);
+        setTimeout(() => { this.recursiveRocksCreation(rockTarget); },
+        (12 / this.numberOfRocks) * (1 / (this.scene.spaceShip.speed - this.rocksSpeed)) * 2000);
       };
 
       function registerRenderer(): void {
@@ -165,7 +164,7 @@ module Core.MainScene {
             if (newR.intersectsMesh(rockTarget, false)) {
               self.explodeRock(newRock, "collision");
               self.scene.spaceShip.explode();
-            } else if (self.scene.spaceShip.spaceShipMesh.position.z - 26 > newR.position.z) {
+            } else if (self.scene.spaceShip.spaceShipMesh.position.z > newR.position.z - 10) {
               newRock.isTransparent = newRock.isTransparent || true;
               newR.visibility -= 0.03;
             }
