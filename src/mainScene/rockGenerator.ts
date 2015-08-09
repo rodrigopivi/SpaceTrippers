@@ -164,7 +164,8 @@ module Core.MainScene {
             if (newR.intersectsMesh(rockTarget, false)) {
               self.explodeRock(newRock, "collision");
               self.scene.spaceShip.explode();
-            } else if (self.scene.spaceShip.spaceShipMesh.position.z > newR.position.z - 10) {
+            } else if (self.scene.spaceShip.spaceShipMesh.position.z > newR.position.z - 10
+              && newR.visibility > 0.3) {
               newRock.isTransparent = newRock.isTransparent || true;
               newR.visibility -= 0.03;
             }

@@ -58,7 +58,7 @@ module Core.MainScene {
             bgSpeed += 0.0000005;
             pointLongitude += 0.00004;
             alpha += 0.00025;
-            self.scene.spaceShip.speed += 0.0015;
+            self.scene.spaceShip.speed += 0.00155;
             if (roundedPos % 500 === 0) {
               self.scene.rockGenerator.numberOfRocks++;
               self.scene.rockGenerator.rocksSpeed += 0.001;
@@ -74,7 +74,7 @@ module Core.MainScene {
               bgSpeed -= 0.0000005;
               pointLongitude -= 0.00004;
               alpha -= 0.00025;
-              self.scene.spaceShip.speed -= 0.0018;
+              self.scene.spaceShip.speed -= 0.0015;
               if (roundedPos % 500 === 0) {
                 self.scene.rockGenerator.numberOfRocks--;
                 self.scene.rockGenerator.rocksSpeed -= 0.001;
