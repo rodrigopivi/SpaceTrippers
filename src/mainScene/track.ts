@@ -1,115 +1,146 @@
 module Core.MainScene {
 
-  export interface IRoadBlock {
+  export interface IRoadBlocks {
     nextBlockPositionZ: number;
     blocks: BABYLON.Mesh[];
     lanesPositionX: number[];
   }
 
   export class Track {
-    private scene: BABYLON.Scene;
-    private totalLanes: number = 7;
-    private laneInterval: number = 33;
-    private totalBlocksPerLane: number = 8;
-    private blockInterval: number = 110;
+    private static totalLanes: number = 7;
+    private static laneInterval: number = 33;
+    private static totalBlocksPerLane: number = 8;
+    private static blockInterval: number = 33;
+    private static blocksWidth: number = 23;
+    private static blocksHeight: number = 3;
+    private static blocksLength: number = 80;
 
-    private blocksWidth: number = 23;
-    private blocksHeight: number = 3;
-    private blocksLength: number = 80;
-
+    private scene: Core.MainScene.Scene;
     private originalBlock: BABYLON.Mesh;
     private blocksMaterial: BABYLON.StandardMaterial;
-
     private currentBlocksColor: BABYLON.Color3 = new BABYLON.Color3(
-      (Math.random() * 0.9 + 0.1),
-      (Math.random() * 0.9 + 0.1),
-      (Math.random() * 0.9 + 0.1));
+      Core.Utilities.getRandomInRange(1, 9) * 0.1,
+      Core.Utilities.getRandomInRange(1, 9) * 0.1,
+      Core.Utilities.getRandomInRange(1, 9) * 0.1
+      );
 
-    private autoChangeBlocksColor: () => void;
-    public currentBlocksMaterial: BABYLON.StandardMaterial;
-
-    public rows: IRoadBlock = <IRoadBlock>{
-      nextBlockPositionZ: 0,
-      blocks: [],
-      lanesPositionX: []
-    };
+    public static trackBlockZDimention: number = Track.totalBlocksPerLane * (Track.blocksLength + Track.blockInterval);
+    public roadBlocks: IRoadBlocks;
     public repositionFirstLineOfBlocks: () => void;
 
-    constructor(scene: BABYLON.Scene) {
+    constructor(scene: Core.MainScene.Scene) {
+      var self = this;
       this.scene = scene;
+      preloadAssets();
+      createBlocksMaterial();
+      createOriginalBlock();
+      generateTrack();
+      recursiveChangeBlocksColor();
+
       this.repositionFirstLineOfBlocks = () => {
-        var rowBlock = this.rows.blocks.shift();
-        rowBlock.position.z = this.rows.nextBlockPositionZ;
-        rowBlock.material["diffuseColor"] = this.currentBlocksColor;
-        this.rows.blocks.push(rowBlock);
-        this.rows.nextBlockPositionZ += this.blockInterval;
+        var rowBlock = this.roadBlocks.blocks.shift();
+        rowBlock.position.z = this.roadBlocks.nextBlockPositionZ;
+        this.roadBlocks.blocks.push(rowBlock);
+        this.roadBlocks.nextBlockPositionZ += Track.trackBlockZDimention;
       };
 
-      var createBlock = (blockId: string, positionZ: number, positionX: number): BABYLON.Mesh => {
-        var block = this.originalBlock.clone(blockId);
-        block.scaling.x = this.blocksWidth;
-        block.scaling.y = this.blocksHeight;
-        block.scaling.z = this.blocksLength;
-        block.position.z = positionZ;
-        block.position.x = positionX;
-        block.position.y -= this.blocksHeight / 2;
-        return block;
-      };
+      function preloadAssets(): void {
+        self.scene.assetsManager.addImageTask("cosmicboxnx", "/assets/cosmicskybox/cosmicskybox_nx.jpg");
+        self.scene.assetsManager.addImageTask("cosmicboxnx", "/assets/cosmicskybox/cosmicskybox_ny.jpg");
+        self.scene.assetsManager.addImageTask("cosmicboxnx", "/assets/cosmicskybox/cosmicskybox_nz.jpg");
+        self.scene.assetsManager.addImageTask("cosmicboxnx", "/assets/cosmicskybox/cosmicskybox_px.jpg");
+        self.scene.assetsManager.addImageTask("cosmicboxnx", "/assets/cosmicskybox/cosmicskybox_py.jpg");
+        self.scene.assetsManager.addImageTask("cosmicboxnx", "/assets/cosmicskybox/cosmicskybox_pz.jpg");
+      }
 
-      this.autoChangeBlocksColor = (): void => {
-        this.currentBlocksColor = new BABYLON.Color3(
+      function recursiveChangeBlocksColor(): void {
+        self.currentBlocksColor = new BABYLON.Color3(
           Core.Utilities.getRandomInRange(1, 9) * 0.1,
           Core.Utilities.getRandomInRange(1, 9) * 0.1,
           Core.Utilities.getRandomInRange(1, 9) * 0.1
           );
-        setTimeout(() => { this.autoChangeBlocksColor(); }, 10000);
-      };
+        self.blocksMaterial.diffuseColor = self.currentBlocksColor;
+        setTimeout(() => { recursiveChangeBlocksColor(); }, 10000);
+      }
 
-      this.autoChangeBlocksColor();
+      function createBlocksMaterial(): void {
+        self.blocksMaterial = new BABYLON.StandardMaterial("blocks Material", self.scene.scene);
+        self.blocksMaterial.backFaceCulling = true;
+        self.blocksMaterial.reflectionTexture = new BABYLON.CubeTexture("/assets/cosmicskybox/cosmicskybox", self.scene.scene);
+        self.blocksMaterial.reflectionTexture.level = 0.8;
+        self.blocksMaterial.specularPower = 10;
+        self.blocksMaterial.emissiveColor = new BABYLON.Color3(0, 0, 0);
+        self.blocksMaterial.ambientColor = new BABYLON.Color3(0, 0, 0);
+        self.blocksMaterial.diffuseColor = self.currentBlocksColor;
+        self.blocksMaterial.alpha = 1;
+        self.blocksMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+        self.blocksMaterial.emissiveFresnelParameters.bias = 0.4;
+        self.blocksMaterial.emissiveFresnelParameters.power = 140;
+      }
 
-      this.blocksMaterial = new BABYLON.StandardMaterial("blocks Material", this.scene);
-      this.blocksMaterial.backFaceCulling = false;
-      this.blocksMaterial.reflectionTexture = new BABYLON.CubeTexture("/assets/cosmicskybox/cosmicskybox", this.scene);
-      this.blocksMaterial.reflectionTexture.level = 0.8;
-      this.blocksMaterial.specularPower = 10;
-      this.blocksMaterial.emissiveColor = new BABYLON.Color3(0, 0, 0);
-      this.blocksMaterial.ambientColor = new BABYLON.Color3(0, 0, 0);
-      this.blocksMaterial.diffuseColor = this.currentBlocksColor;
-      this.blocksMaterial.alpha = 1;
-      this.blocksMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
-      this.blocksMaterial.emissiveFresnelParameters.bias = 0.4;
-      this.blocksMaterial.emissiveFresnelParameters.power = 140;
+      function createOriginalBlock(): void {
+        self.originalBlock = BABYLON.Mesh.CreateBox("original Block", 1, self.scene.scene);
+        self.originalBlock.scaling.y = Track.blocksHeight;
+        self.originalBlock.scaling.z = Track.blocksLength;
+        self.originalBlock.isVisible = false;
+      }
 
-      this.originalBlock = BABYLON.Mesh.CreateBox("original Block", 1, this.scene);
-      this.originalBlock.scaling.y = this.blocksHeight;
-      this.originalBlock.scaling.z = this.blocksLength;
-      this.originalBlock.isVisible = false;
+      function createBlock (blockId: string, positionZ: number, positionX: number): BABYLON.Mesh {
+        var block = self.originalBlock.clone(blockId);
+        block.scaling.x = Track.blocksWidth;
+        block.scaling.y = Track.blocksHeight;
+        block.scaling.z = Track.blocksLength;
+        block.position.z = positionZ;
+        block.position.x = positionX;
+        block.position.y -= Track.blocksHeight / 2;
+        return block;
+      }
 
-      var currentRowPositionZ: number = 0;
-      for (var i = 0; i < this.totalBlocksPerLane; i++) {
-        var originalRowBlock: BABYLON.Mesh;
-        if (!i) {
-          var rowBlocks: BABYLON.Mesh[] = [],
-            currentBlockPositionX: number = -1 * (this.laneInterval * this.totalLanes / 2);
-          for (var j = 0; j < this.totalLanes; j++) {
-            var newBlock: BABYLON.Mesh = createBlock("Lane" + j + "Block" + i, currentRowPositionZ, currentBlockPositionX);
-            newBlock.computeWorldMatrix(true);
-            rowBlocks.push(newBlock);
-            this.rows.lanesPositionX.push(currentBlockPositionX);
-            currentBlockPositionX += this.laneInterval;
+      function generateTrack() {
+        var currentRowPositionZ: number = (Track.blocksLength) / 2,
+            trackBlocks: BABYLON.Mesh[] = [],
+            originalTrackBlock: BABYLON.Mesh;
+        self.roadBlocks = { nextBlockPositionZ: 0, blocks: [], lanesPositionX: [] };
+        for (var i = 0; i < Track.totalBlocksPerLane; i++) {
+          var originalRowBlock: BABYLON.Mesh;
+          if (!i) { // Create a row one time only
+            var rowBlocks: BABYLON.Mesh[] = [],
+                currentBlockPositionX: number = -1 * (Track.laneInterval * Track.totalLanes / 2);
+            for (var j = 0; j < Track.totalLanes; j++) {
+              var newBlock: BABYLON.Mesh = createBlock("Lane" + j + "Block" + i, currentRowPositionZ, currentBlockPositionX);
+              newBlock.isVisible = false;
+              newBlock.computeWorldMatrix(true);
+              rowBlocks.push(newBlock);
+              self.roadBlocks.lanesPositionX.push(currentBlockPositionX);
+              currentBlockPositionX += Track.laneInterval;
+            }
+            originalRowBlock = Core.Utilities.mergeMeshes("OriginalRowBlock", rowBlocks, self.scene.scene);
+            originalRowBlock.isVisible = false;
+            rowBlocks.forEach((rowBlock: BABYLON.Mesh) => { self.scene.scene._toBeDisposed.push(rowBlock); });
           }
-          originalRowBlock = Core.Utilities.mergeMeshes("OriginalRowBlock", rowBlocks, this.scene);
-          originalRowBlock.isVisible = false;
-          rowBlocks.forEach((rowBlock: BABYLON.Mesh) => { this.scene._toBeDisposed.push(rowBlock); });
+          var newBlockRowMesh = originalRowBlock.clone("Row" + i);
+          newBlockRowMesh.isVisible = false;
+          newBlockRowMesh.computeWorldMatrix(true);
+          newBlockRowMesh.position.z = currentRowPositionZ;
+          trackBlocks.push(newBlockRowMesh);
+          currentRowPositionZ += Track.blocksLength + Track.blockInterval;
         }
-        var newBlockRowMesh = originalRowBlock.clone("Row" + i);
-        newBlockRowMesh.material = this.blocksMaterial;
-        newBlockRowMesh.receiveShadows = true;
-        newBlockRowMesh.position.z = currentRowPositionZ;
-        newBlockRowMesh.isVisible = true;
-        this.rows.blocks.push(newBlockRowMesh);
-        currentRowPositionZ += this.blockInterval;
-        this.rows.nextBlockPositionZ = currentRowPositionZ;
+        originalTrackBlock = Core.Utilities.mergeMeshes("OriginalTrackBlock", trackBlocks, self.scene.scene);
+        originalTrackBlock.isVisible = false;
+        trackBlocks.forEach((trackBlock: BABYLON.Mesh) => { self.scene.scene._toBeDisposed.push(trackBlock); });
+
+        self.roadBlocks.nextBlockPositionZ = -1 * Track.blockInterval;
+        for (var k = 0; k < 2; k++) {
+          var newTrackBlock = originalTrackBlock.clone("track" + k);
+          newBlockRowMesh.computeWorldMatrix(true);
+          newTrackBlock.isVisible = true;
+          newTrackBlock.renderingGroupId = 1;
+          newTrackBlock.material = self.blocksMaterial;
+          newTrackBlock.receiveShadows = true;
+          newTrackBlock.position.z = self.roadBlocks.nextBlockPositionZ;
+          self.roadBlocks.blocks.push(newTrackBlock);
+          self.roadBlocks.nextBlockPositionZ += Track.trackBlockZDimention;
+        }
       }
 
     }

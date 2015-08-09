@@ -9,6 +9,16 @@ module Core.Utilities {
     document.getElementById("stats").innerHTML = innerHtml;
   }
 
+  export function getScreenSize(): number[] {
+    var w = window,
+    d = document,
+    e = d.documentElement,
+    g = d.getElementsByTagName("body")[0],
+    x = w.innerWidth || e.clientWidth || g.clientWidth,
+    y = w.innerHeight || e.clientHeight || g.clientHeight;
+    return [x, y];
+  }
+
   export function getRandomInRange(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }

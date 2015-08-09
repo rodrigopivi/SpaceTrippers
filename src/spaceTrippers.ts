@@ -17,7 +17,8 @@ module Core {
     export var canvas: HTMLCanvasElement;
     export var engine: BABYLON.Engine;
     export var currentScene: Core.MainScene.Scene;
-    export var isEngineLoopRunning: boolean = false;
+    export var hasStarted: boolean = false;
+    export var isPaused: boolean = false;
 
     document.addEventListener("DOMContentLoaded", () => {
       if (BABYLON.Engine.isSupported()) {
@@ -25,28 +26,26 @@ module Core {
 
         canvas = <HTMLCanvasElement>document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
-        currentScene = new Core.MainScene.Scene(canvas, engine);
+        //var screenSizes: number[] = Utilities.getScreenSize();
+        //if (screenSizes[0] > 800 || screenSizes[1] > 600) {
+          engine.setHardwareScalingLevel(1);
+        //}
+        engine.loadingUIBackgroundColor = "Black";
+        currentScene = new Core.MainScene.Scene();
+        Audio.enableWebkitWebAudio(canvas);
 
-        // TODO: refactor this hack to activate sound for iOS WKWebView (need an event first to activate WebAudioApi)
-        var audioEnabled = false;
-        var hacktivateWebkitWebAudioFn = () => {
-          if (!audioEnabled) { // we just need to hacktivate sound one time.
-              Audio.playSoundFromAudioLib("move");
-              audioEnabled = true;
-              canvas.removeEventListener("touchmove", hacktivateWebkitWebAudioFn, false);
-          }
-        };
-        canvas.addEventListener("touchmove", hacktivateWebkitWebAudioFn, false);
         window.addEventListener("browsertabchanged", (e: any) => {
-          if (e.active) {
-            currentScene.runRenderLoop();
-          } else {
-            isEngineLoopRunning = false;
-            engine.stopRenderLoop();
+          if (Game.hasStarted) {
+            if (e.active) {
+              if (Game.isPaused) { currentScene.runRenderLoop(); }
+            } else {
+              Game.isPaused = true;
+              engine.stopRenderLoop();
+            }
           }
         }, false);
-        // currentScene.scene.debugLayer.show();
-        // window.addEventListener("resize", () => { engine.resize(); });
+        //currentScene.scene.debugLayer.show();
+        window.addEventListener("resize", () => { engine.resize(); });
       }
     }, false);
 

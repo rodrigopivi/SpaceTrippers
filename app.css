@@ -1,35 +1,31 @@
 html, body {
   margin: 0;
-  text-align: center;
-  background-color: #252525;
-  background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.05));
-  background-size: 5px;
-  color: rgb(0, 255, 255);
+  padding: 0;
+  height: 100%;
+  width   : 100%;
+  color: rgb(0, 0, 0);
+  overflow: hidden;
+}
+div {
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
 }
 #renderCanvas {
-  /* iphone 6 resolution http://stackoverflow.com/questions/25754848/what-are-the-device-width-css-viewport-sizes-of-the-iphone6-and-iphone-6-plus */
-  height: 375px;
-  width: 667px;
-}
-#gameContainer {
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  position: relative;
+  height: 100%;
+  width: 100%;
+  margin:0;
+  padding:0;
+  touch-action: none;
 }
 #stats {
   position: absolute;
   top: 0;
   left: 0;
+  margin:0;
+  padding:0;
   color: rgb(0, 255, 255);
-  padding: 5px;
   background: rgba(0, 0, 0, 0.70);
   overflow: hidden;
   font-size: 10px;
-}
-.metal {
-  outline: none;
-  box-shadow: rgba(0, 0, 0, 0.15) 0 -5px 6px 4px, /* outer SD */
-  rgba(26, 26, 26, 0.50) 0 5px 6px 4px;
-  /* outer HL */
 }

@@ -1,66 +1,67 @@
 module Core.MainScene {
 
   export class SpaceShip {
-    private assetsManager: BABYLON.AssetsManager;
-
     private scene: Core.MainScene.Scene;
 
-    private createPropulsionAnimation: () => void;
     private moveUpAnimation: BABYLON.Animation;
     private moveDownAnimation: BABYLON.Animation;
     private moveXAnimation: BABYLON.Animation;
 
     private bulletTrigger: Core.MainScene.BulletTrigger;
-    private jumpCount: number = 0;
 
-    public speed: number = 4; // min should be 3
+    public speed: number = 3; // should go from 3 to 5
     public isXMoving: boolean = false;
+    public isYMoving: boolean = false;
+    public isUp: boolean = false;
+
     public triggerShot: () => void;
-    public moveUp: (animationEndCallback?: () => void) => void;
-    public moveDown: (animationEndCallback?: () => void) => void;
+    public moveUp: () => void;
+    public moveDown: () => void;
     public spaceShipMesh: BABYLON.Mesh;
     public moveShipMeshToLane: (newLane: number, animationEndCallback: () => void) => void;
     public explode: (afterDispose?: () => void) => void;
 
-    constructor(scene: Scene, assetsManager: BABYLON.AssetsManager, afterLoadedCallback: (spaceShipMesh: BABYLON.AbstractMesh) => void) {
+    constructor(scene: Scene, afterLoadedCallback: () => void) {
+      var self = this;
       this.scene = scene;
-      this.assetsManager = assetsManager;
-      var spaceShipMeskLoaderTask = assetsManager.addMeshTask("SpaceShip", "", "/assets/meshes/spaceShip/", "spaceShip.babylon");
+      var spaceShipMeskLoaderTask = this.scene.assetsManager.addMeshTask("SpaceShip", "", "/assets/meshes/spaceShip/", "spaceShip.babylon");
 
-      this.moveUp = (animationEndCallback?: () => void): void => {
-        if (!this.moveDownAnimation && !this.moveUpAnimation && this.jumpCount < 1) {
-          this.jumpCount++;
+      this.moveUp = (): void => {
+        if (!this.moveUpAnimation) {
           var easingFunction = new BABYLON.QuadraticEase;
-          this.moveUpAnimation = new BABYLON.Animation("jumpSpaceshipAnimation", "position.y", 160, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
-          this.moveUpAnimation.setKeys([
-            { frame: 0, value: this.spaceShipMesh.position.y },
-            { frame: 40, value: this.spaceShipMesh.position.y + 40 }
-          ]);
           easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+          this.moveUpAnimation = new BABYLON.Animation("upSpaceshipAnimation", "position.y", 60, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+          this.moveUpAnimation.setKeys([
+            { frame: 0, value: this.spaceShipMesh.position.y }, { frame: 15, value: this.spaceShipMesh.position.y + 39 }
+          ]);
           this.moveUpAnimation.setEasingFunction(easingFunction);
+        }
+        if (!this.isYMoving && !this.isUp) {
+          this.isUp = true;
+          this.isYMoving = true;
           Core.Audio.playSoundFromAudioLib("move");
-          this.scene.scene.beginDirectAnimation(this.spaceShipMesh, [this.moveUpAnimation], 0, 160, false, 1, (): void => {
-            this.moveUpAnimation = undefined;
-            if (animationEndCallback) { animationEndCallback(); }
+          this.scene.scene.beginDirectAnimation(this.spaceShipMesh, [this.moveUpAnimation], 0, 15, false, 1, (): void => {
+            this.isYMoving = false;
           });
         }
       };
 
-      this.moveDown = (animationEndCallback?: () => void): void => {
-        if (!this.moveUpAnimation && !this.moveDownAnimation && this.jumpCount > 0) {
-          this.jumpCount--;
+      this.moveDown = (): void => {
+        if (!this.moveDownAnimation) {
           var easingFunction = new BABYLON.QuadraticEase;
-          this.moveDownAnimation = new BABYLON.Animation("jumpSpaceshipAnimation", "position.y", 160, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
-          this.moveDownAnimation.setKeys([
-            { frame: 0, value: this.spaceShipMesh.position.y },
-            { frame: 40, value: this.spaceShipMesh.position.y - 40 }
-          ]);
           easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+          this.moveDownAnimation = new BABYLON.Animation("downSpaceshipAnimation", "position.y", 60, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+          this.moveDownAnimation.setKeys([
+            { frame: 0, value: this.spaceShipMesh.position.y }, { frame: 15, value: this.spaceShipMesh.position.y - 39 }
+          ]);
           this.moveDownAnimation.setEasingFunction(easingFunction);
+        }
+        if (!this.isYMoving && this.isUp) {
+          this.isUp = false;
+          this.isYMoving = true;
           Core.Audio.playSoundFromAudioLib("move");
-          this.scene.scene.beginDirectAnimation(this.spaceShipMesh, [this.moveDownAnimation], 0, 160, false, 1, (): void => {
-            this.moveDownAnimation = undefined;
-            if (animationEndCallback) { animationEndCallback(); };
+          this.scene.scene.beginDirectAnimation(this.spaceShipMesh, [this.moveDownAnimation], 0, 15, false, 1, (): void => {
+            this.isYMoving = false;
           });
         }
       };
@@ -72,7 +73,7 @@ module Core.MainScene {
           this.moveXAnimation = new BABYLON.Animation("moveSpaceshipAnimation", "position.x", 60, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
           this.moveXAnimation.setKeys([
             { frame: 0, value: this.spaceShipMesh.position.x },
-            { frame: 15, value: this.scene.track.rows.lanesPositionX[newLane] }
+            { frame: 15, value: this.scene.track.roadBlocks.lanesPositionX[newLane] }
           ]);
           easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
           this.moveXAnimation.setEasingFunction(easingFunction);
@@ -83,29 +84,6 @@ module Core.MainScene {
             if (animationEndCallback) { animationEndCallback(); }
           });
         }
-      };
-
-      this.createPropulsionAnimation = (): void => {
-        var particles = new BABYLON.ParticleSystem("shipPropulsion", 400, this.scene.scene);
-        particles.renderingGroupId = 2;
-        particles.particleTexture = new BABYLON.Texture("/assets/star.png", this.scene.scene);
-        particles.emitter = this.spaceShipMesh;
-        particles.minEmitBox = new BABYLON.Vector3(0, -15, 3);
-        particles.maxEmitBox = new BABYLON.Vector3(0, -15, 3);
-        particles.direction1 = new BABYLON.Vector3(-.3, -1, -1);
-        particles.direction2 = new BABYLON.Vector3(-.3, -1, -1);
-        particles.gravity = new BABYLON.Vector3(0, -.05, 0);
-        particles.color1 = new BABYLON.Color4(1, 0.5, 0.8, 1);
-        particles.color2 = new BABYLON.Color4(1, 0.5, 1, 1);
-        particles.colorDead = new BABYLON.Color4(1, 0, 1, 0);
-        particles.minSize = 3;
-        particles.maxSize = 4;
-        particles.minLifeTime = 0.01;
-        particles.maxLifeTime = 0.04;
-        particles.emitRate = 400;
-        particles.minEmitPower = 2;
-        particles.maxEmitPower = 2;
-        particles.start();
       };
 
       this.triggerShot = (): void => {
@@ -153,15 +131,37 @@ module Core.MainScene {
       /* ============== Event listeners ============== */
       spaceShipMeskLoaderTask.onSuccess = (task: BABYLON.MeshAssetTask) => {
         this.spaceShipMesh = <BABYLON.Mesh>task.loadedMeshes[0];
-        // this.spaceShipMesh.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.LOCAL);
-        // this.spaceShipMesh.rotate(BABYLON.Axis.Y, Math.PI, BABYLON.Space.LOCAL);
-        // this.spaceShipMesh.rotate(BABYLON.Axis.Z, Math.PI, BABYLON.Space.LOCAL);
-
-        this.createPropulsionAnimation();
+        this.spaceShipMesh.receiveShadows = true;
+        this.spaceShipMesh.renderingGroupId = 2;
+        this.scene.shadowGenerator.getShadowMap().renderList.push(this.spaceShipMesh);
+        createPropulsionAnimation();
         this.bulletTrigger = new BulletTrigger(this.scene, this.spaceShipMesh);
-
-        afterLoadedCallback(this.spaceShipMesh);
+        afterLoadedCallback();
       };
+
+      function createPropulsionAnimation(): void {
+        var particles = new BABYLON.ParticleSystem("shipPropulsion", 400, self.scene.scene);
+        particles.renderingGroupId = 2;
+        particles.particleTexture = new BABYLON.Texture("/assets/star.png", self.scene.scene);
+        particles.emitter = self.spaceShipMesh;
+        particles.minEmitBox = new BABYLON.Vector3(0, -15, 3);
+        particles.maxEmitBox = new BABYLON.Vector3(0, -15, 3);
+        particles.direction1 = new BABYLON.Vector3(-.3, -1, -1);
+        particles.direction2 = new BABYLON.Vector3(-.3, -1, -1);
+        particles.gravity = new BABYLON.Vector3(0, -.05, 0);
+        particles.color1 = new BABYLON.Color4(1, 0.5, 0.8, 1);
+        particles.color2 = new BABYLON.Color4(1, 0.5, 1, 1);
+        particles.colorDead = new BABYLON.Color4(1, 0, 1, 0);
+        particles.minSize = 3;
+        particles.maxSize = 4;
+        particles.minLifeTime = 0.01;
+        particles.maxLifeTime = 0.04;
+        particles.emitRate = 400;
+        particles.minEmitPower = 2;
+        particles.maxEmitPower = 2;
+        particles.start();
+      }
+
     }
   }
 }

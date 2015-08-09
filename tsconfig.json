@@ -10,6 +10,7 @@
     ],
     "files": [
         "src/audio.ts",
+        "src/mainScene/backgroundField.ts",
         "src/mainScene/bulletTrigger.ts",
         "src/mainScene/mainScene.ts",
         "src/mainScene/meteoriteGenerator.ts",

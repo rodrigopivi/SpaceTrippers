@@ -7,7 +7,12 @@ module Core.Audio {
     collision: any;
     explosion: any;
   }
-  export var audioContext = window.AudioContext !== undefined ? new AudioContext() : new webkitAudioContext();
+  export var isWebKit: boolean = false;
+
+  // https://gist.github.com/morewry/538efb737ed9c4e432e4
+  export var audioEnabled: boolean = true;
+  export var audioContext = window.AudioContext !== undefined ? new AudioContext() : (isWebKit = true) && !(audioEnabled = false) && new webkitAudioContext();
+
   export var library: IAudioItem = <IAudioItem>{
     // audios generated from http://egonelbre.com/project/jsfx/
     shoot: getBufferFromJsfx(audioContext, ["square", 0.0000, 0.0700, 0.0250, 0.0940, 2.0610, 0.5680, 2392.0000, 265.0000, 33.0000, 0.4420, 0.6580, 0.8990, 10.2799, 0.0549, -0.1860, -0.5560, 0.6210, 0.3415, 0.1680, 0.3616, -0.5020, -0.1720, 0.9170, 0.4120, 0.2650, 0.4350, 0.1000]),
@@ -27,10 +32,24 @@ module Core.Audio {
     }
     return buffer;
   }
+
   export function playSoundFromAudioLib(soundId: string) {
     var source = audioContext.createBufferSource();
     source.buffer = library[soundId];
     source.connect(audioContext.destination);
     source.start ? source.start(0) : source["noteOn"](0);
+  }
+
+  export function enableWebkitWebAudio(element: Element) {
+    if (Audio.isWebKit) {
+      var hacktivateWebkitWebAudioFn = () => {
+        if (!Audio.audioEnabled && Core.Audio.isWebKit) {
+          Audio.playSoundFromAudioLib("move");
+          Core.Audio.audioEnabled = true;
+          element.removeEventListener("touchmove", hacktivateWebkitWebAudioFn, false);
+        }
+      };
+      element.addEventListener("touchmove", hacktivateWebkitWebAudioFn, false);
+    }
   }
 }
