@@ -26,10 +26,10 @@ module Core {
 
         canvas = <HTMLCanvasElement>document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
-        //var screenSizes: number[] = Utilities.getScreenSize();
-        //if (screenSizes[0] > 800 || screenSizes[1] > 600) {
+        // var screenSizes: number[] = Utilities.getScreenSize();
+        // if (screenSizes[0] > 800 || screenSizes[1] > 600) {
           engine.setHardwareScalingLevel(1);
-        //}
+        // }
         engine.loadingUIBackgroundColor = "Black";
         currentScene = new Core.MainScene.Scene();
         Audio.enableWebkitWebAudio(canvas);
@@ -44,7 +44,7 @@ module Core {
             }
           }
         }, false);
-        //currentScene.scene.debugLayer.show();
+        // currentScene.scene.debugLayer.show();
         window.addEventListener("resize", () => { engine.resize(); });
       }
     }, false);

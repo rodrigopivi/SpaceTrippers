@@ -32,16 +32,15 @@ module Core.MainScene {
       }
 
       function createBackgroundMesh(): void {
-        //self.mesh = BABYLON.Mesh.CreatePlane("mesh", 2500, self.scene.scene);
+        // self.mesh = BABYLON.Mesh.CreatePlane("mesh", 2500, self.scene.scene);
         self.mesh = BABYLON.Mesh.CreatePlane("mesh", 100, self.scene.scene);
         self.mesh.renderingGroupId = 0;
-        //self.mesh.rotation.y =  Math.PI * .5;
+        // self.mesh.rotation.y =  Math.PI * .5;
         self.mesh.material = self.shaderMaterial;
         // initialized values for the fragment shader
         var time = 6;
         var alpha = 0.0;
         var pointLongitude = 0.001; // from 0 to 0.06
-        var position = new BABYLON.Vector3(0, 200, 0);
         var bgSpeed = 0.00025;
         var shown = false;
         self.scene.scene.registerBeforeRender(() => {
