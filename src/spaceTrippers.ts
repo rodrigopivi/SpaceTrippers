@@ -1,6 +1,6 @@
 ///<reference path="../typings/poly2tri.d.ts"/>
 ///<reference path="../typings/jsfx.d.ts"/>
-///<reference path="../typings/babylon.2.1.d.ts"/>
+///<reference path="../typings/babylon.2.2.d.ts"/>
 ///<reference path="utilities.ts"/>
 ///<reference path="audio.ts"/>
 ///<reference path="mainScene/mainScene.ts"/>

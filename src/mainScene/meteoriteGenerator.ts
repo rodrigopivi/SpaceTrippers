@@ -175,7 +175,7 @@ module Core.MainScene {
             meteoriteObj.mesh.isVisible = false;
             meteoriteObj.fireTail.stop();
             meteoriteObj.smokeTail.stop();
-            self.scene.spaceShip.explode();
+            self.scene.spaceShip.explode(undefined, undefined, 30);
             self.scene.scene._toBeDisposed.push(meteoriteObj.mesh);
             self.currentMeteorites.splice(meteoriteIndexById(meteoriteObj.id), 1);
           }

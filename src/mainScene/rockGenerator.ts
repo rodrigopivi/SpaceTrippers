@@ -163,7 +163,7 @@ module Core.MainScene {
             self.scene.spaceShipTransitionTrackLane === newRock.laneIndex) {
             if (newR.intersectsMesh(rockTarget, false)) {
               self.explodeRock(newRock, "collision");
-              self.scene.spaceShip.explode();
+              self.scene.spaceShip.explode(undefined, 30);
             } else if (self.scene.spaceShip.spaceShipMesh.position.z > newR.position.z - 10
               && newR.visibility > 0.3) {
               newRock.isTransparent = newRock.isTransparent || true;

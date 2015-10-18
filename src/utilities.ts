@@ -3,9 +3,10 @@ module Core.Utilities {
 
   export function updateStats(): void {
     var innerHtml: string = "FPS: " + Core.Game.engine.getFps().toFixed(2) + "<br />"
-      + "Potential FPS: " + BABYLON.Tools.Format(1000.0 / Core.Game.currentScene.scene.getLastFrameDuration(), 0) + "<br />";
+      + "Potential FPS: " + BABYLON.Tools.Format(1000.0 / Core.Game.currentScene.scene.getLastFrameDuration(), 0) + "<br />"
+      + "Life: " + Core.Game.currentScene.spaceShip.life;
     document.getElementById("stats").style.width = "80px";
-    document.getElementById("stats").style.height = "25px";
+    document.getElementById("stats").style.height = "40px";
     document.getElementById("stats").innerHTML = innerHtml;
   }
 

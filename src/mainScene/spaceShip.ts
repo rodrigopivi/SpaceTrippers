@@ -14,13 +14,14 @@ module Core.MainScene {
     public isXMoving: boolean = false;
     public isYMoving: boolean = false;
     public isUp: boolean = false;
+    public life: number = 100;
 
     public triggerShot: () => void;
     public moveUp: () => void;
     public moveDown: () => void;
     public spaceShipMesh: BABYLON.Mesh;
     public moveShipMeshToLane: (newLane: number, animationEndCallback: Function) => void;
-    public explode: (afterDispose?: Function) => void;
+    public explode: (afterDispose?: Function, damageToAdd?: number, lifeToAdd?: number) => void;
 
     constructor(scene: Scene, afterLoadedCallback: () => void) {
       var self = this;
@@ -95,13 +96,13 @@ module Core.MainScene {
         }
       };
 
-      this.explode = (afterDispose?: Function): void => {
+      this.explode = (afterDispose?: Function, damageToAdd?: number, lifeToAdd?: number): void => {
         var newExplosion = this.originalHitExplosion.clone("hitExplosionX", this.spaceShipMesh);
         Core.Audio.playSoundFromAudioLib("hit");
         newExplosion.start();
-        if (afterDispose) {
-          newExplosion.onDispose = () => { afterDispose(); };
-        }
+        if (afterDispose) { newExplosion.onDispose = () => { afterDispose(); }; }
+        if (damageToAdd) { addDamage(damageToAdd); }
+        if (lifeToAdd) { addLife(lifeToAdd); }
       };
 
       function preloadAssets(): void {
@@ -168,6 +169,25 @@ module Core.MainScene {
         hitExplosion.targetStopDuration = 0.05;
         hitExplosion.disposeOnStop = true;
         self.originalHitExplosion = hitExplosion;
+      }
+
+      function addLife(lifeToAdd: number): void {
+        var shadowLife = self.life + lifeToAdd;
+        if (shadowLife > 100) {
+          self.life = 100;
+        } else {
+          self.life = shadowLife;
+        }
+      }
+
+      function addDamage(damageToAdd: number): void {
+        var shadowLife = self.life - damageToAdd;
+        if (shadowLife > 0) {
+          self.life = shadowLife;
+        } else {
+          self.life = 0;
+          // todo: end the game
+        }
       }
 
     }
