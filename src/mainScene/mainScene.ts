@@ -66,9 +66,10 @@ module Core.MainScene {
         var bgLoaderTask = self.assetsManager.addImageTask("bgLoader", "/assets/earthbg.png");
         bgLoaderTask.onSuccess = () => {
           self.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0.0000000000000001);
-          Game.canvas.style.backgroundImage = "url(/assets/earthbg.png)";
-          Game.canvas.style.backgroundSize = "100% 100%";
-          Game.canvas.style.backgroundRepeat = "no-repeat";
+          Game.canvas.style.backgroundColor = "#000000"
+          //Game.canvas.style.backgroundImage = "url(/assets/earthbg.png)";
+          //Game.canvas.style.backgroundSize = "100% 100%";
+          //Game.canvas.style.backgroundRepeat = "no-repeat";
         };
         addLightAndShadows();
         self.scene.onDispose = () => { removeEventListeners(); };

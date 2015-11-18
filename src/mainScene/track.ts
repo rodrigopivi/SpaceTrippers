@@ -9,7 +9,7 @@ module Core.MainScene {
   export class Track {
     private static totalLanes: number = 7;
     private static laneInterval: number = 33;
-    private static totalBlocksPerLane: number = 8;
+    private static totalBlocksPerLane: number = 18;
     private static blockInterval: number = 33;
     private static blocksWidth: number = 23;
     private static blocksHeight: number = 3;

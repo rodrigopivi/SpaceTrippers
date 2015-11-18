@@ -22,7 +22,7 @@ module Core.MainScene {
 
     public numberOfRocks: number = 30; // should go from 30 to 60
     public rocksSpeed: number = -0.5; // should go from -1 to -3
-    public rocksDistanceFromShip: number = 900;
+    public rocksDistanceFromShip: number = 1200;
 
     private minRocksSeparation: number = 14;
     private lastRocksAtLanesLog: number[] = [];

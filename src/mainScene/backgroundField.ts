@@ -13,17 +13,23 @@ module Core.MainScene {
       createBackgroundMesh();
 
       function preloadAssets(): void {
-        self.scene.assetsManager.addTextFileTask("intestellarVertexShader", "/shaders/interstellar/interstellar.vertex.fx");
-        self.scene.assetsManager.addTextFileTask("intestellarFragmentShader", "/shaders/interstellar/interstellar.fragment.fx");
-        self.scene.assetsManager.addTextureTask("intestellarTexture", "/shaders/interstellar/interstellar.png");
+        // self.scene.assetsManager.addTextFileTask("intestellarVertexShader", "/shaders/interstellar/interstellar.vertex.fx");
+        // self.scene.assetsManager.addTextFileTask("intestellarFragmentShader", "/shaders/interstellar/interstellar.fragment.fx");
+        // self.scene.assetsManager.addTextureTask("intestellarTexture", "/shaders/interstellar/interstellar.png");
+        self.scene.assetsManager.addTextFileTask("starfieldVertexShader", "/shaders/starfield/starfield.vertex.fx");
+        self.scene.assetsManager.addTextFileTask("starfieldFragmentShader", "/shaders/starfield/starfield.fragment.fx");
+        // self.scene.assetsManager.addTextureTask("intestellarTexture", "/shaders/interstellar/interstellar.png");
       }
 
       function createShader(): void {
-        self.shaderMaterial = new BABYLON.ShaderMaterial("interstellarShader", self.scene.scene,
-          { vertexElement: "interstellar/interstellar", fragmentElement: "interstellar/interstellar" },
+        // self.shaderMaterial = new BABYLON.ShaderMaterial("interstellarShader", self.scene.scene,
+        self.shaderMaterial = new BABYLON.ShaderMaterial(
+          "starfieldShader",
+          self.scene.scene,
+          { vertexElement: "starfield/starfield", fragmentElement: "starfield/starfield" },
           { attributes: ["position", "normal", "uv"], uniforms: ["world", "worldView", "worldViewProjection", "view", "projection"] });
-          var refTexture = new BABYLON.Texture("/shaders/interstellar/interstellar.png", self.scene.scene);
-          self.shaderMaterial.setTexture("refSampler", refTexture);
+          //var refTexture = new BABYLON.Texture("/shaders/interstellar/interstellar.png", self.scene.scene);
+          //self.shaderMaterial.setTexture("refSampler", refTexture);
           self.shaderMaterial.setFloat("time", 6);
           self.shaderMaterial.setFloat("alpha", 0.0);
           self.shaderMaterial.setFloat("pointLongitude", 0.001);
